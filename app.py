@@ -1,14 +1,7 @@
-
 from flask import Flask, render_template, g
 
+app = Flask(__name__)
 
-def create_app(config=None, app_name=None, blueprints=None):
-    """Create a Flask app."""
 
-    app = Flask(app_name)
-
-    return app
-
-app = create_app(app_name=__name__)
-
-app.run(debug=True, port=8080)
+if __name__ == "__main__":
+	app.run(debug=True, port=8080)
