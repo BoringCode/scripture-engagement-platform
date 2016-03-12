@@ -19,7 +19,7 @@ INSERT INTO user(username,password,email_address,first_name,last_name,active)
 VALUES ('usernameone','orange43','cse243@gmail.com','Joe','King',DEFAULT );
 
 -- Insert data into group.
-INSERT INTO group(name,public,creation_time,description)
+INSERT INTO group (name,public,creation_time,description)
 VALUES ('Orange Group',DEFAULT, TIMESTAMP, 'The best group ever!');
 
 -- Insert data into group_invitation.
