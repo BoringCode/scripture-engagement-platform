@@ -1,5 +1,8 @@
 venv/
 
+#Ingore NPM packages
+node_modules/
+
 .idea
 
 # Byte-compiled / optimized / DLL files

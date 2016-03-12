@@ -1,0 +1,27 @@
+{
+  "name": "team-orange",
+  "version": "1.0.0",
+  "description": "This is our project, it's pretty cool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tu-isd/team-orange.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tu-isd/team-orange/issues"
+  },
+  "homepage": "https://github.com/tu-isd/team-orange#readme",
+  "devDependencies": {
+    "bootstrap-sass": "^3.3.6",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.1.0",
+    "load-grunt-tasks": "^3.4.1",
+    "node-sass": "^3.4.2"
+  }
+}
