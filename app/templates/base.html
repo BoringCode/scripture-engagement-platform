@@ -1,0 +1,15 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Scripture Engagement{% endblock %}
+
+{% block head %}
+	{{super()}}
+{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" href="{{ url_for("static", filename="css/main.css") }}">
+{% endblock %}
+
+{% block navbar %}
+	{{nav.frontend_top.render()}}
+{% endblock %}
