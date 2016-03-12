@@ -1,8 +1,13 @@
+# Ignore virtualenv
 venv/
+
+# Don't include vim swap files
+*.swp
 
 #Ingore NPM packages
 node_modules/
 
+# Ignore IDE directory
 .idea
 
 # Byte-compiled / optimized / DLL files

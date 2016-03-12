@@ -2,6 +2,8 @@
 
 {% block title %}Scripture Engagement{% endblock %}
 
+{% block html_attribs %} lang="en"{% endblock %}
+
 {% block head %}
 	{{super()}}
 {% endblock %}
@@ -10,6 +12,14 @@
 	<link rel="stylesheet" href="{{ url_for("static", filename="css/main.css") }}">
 {% endblock %}
 
+{% block scripts %}{% endblock %}
+
 {% block navbar %}
 	{{nav.frontend_top.render()}}
+{% endblock %}
+
+{% block footer %}
+	<footer>
+		<p>Test</p>
+	</footer>
 {% endblock %}
