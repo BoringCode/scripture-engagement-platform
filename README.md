@@ -38,7 +38,7 @@ $ python run.py
 
 Front-end development should be performed in the `src/` folder. We are using SASS for our front-end styles. Each piece of the stylesheet should be written in a modular system to encourage the DRY principle.
 
-Development on the Flask application occurs in `app/`. We are following a module system. Individual features of the application (such as plans, accounts, readings, groups, etc.._) should be split out into their own module. Each module should contain `controllers.py`, `models.py`, and `forms.py` with each piece of functionality split up accordingly. Controllers should be implemented as [blueprints](http://flask.pocoo.org/docs/0.10/blueprints/) which are then instantiated on the main app controller in `app/__init__.py`.
+Development on the Flask application occurs in `app/`. We are following a module system. Individual features of the application (such as plans, accounts, readings, groups, etc..) should be split out into their own module. Each module should contain `controllers.py`, `models.py`, and `forms.py` with each piece of functionality split up accordingly. Controllers should be implemented as [blueprints](http://flask.pocoo.org/docs/0.10/blueprints/) which are then instantiated on the main app controller in `app/__init__.py`.
 
 
 ## Team Members
