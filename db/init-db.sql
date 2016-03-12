@@ -1,6 +1,6 @@
 -- Insert data into trip reading.
-INSERT INTO reading (name, creation_time, description,BG_passage_reference)
-VALUES ('Reading for Moday', TIMESTAMP , 'A reading about patience','1 Corinthians 13:4-5');
+INSERT INTO reading (name, creation_time, text,BG_passage_reference)
+VALUES ('Reading for Moday', TIMESTAMP , 'this is the text','1 Corinthians 13:4-5');
 
 -- Insert data into trip content.
 INSERT INTO content (name, creation_time, approved,content)
@@ -19,7 +19,7 @@ INSERT INTO user(username,password,email_address,first_name,last_name,active)
 VALUES ('usernameone','orange43','cse243@gmail.com','Joe','King',DEFAULT );
 
 -- Insert data into group.
-INSERT INTO group(name,public,creation_time,description)
+INSERT INTO group (name,public,creation_time,description)
 VALUES ('Orange Group',DEFAULT, TIMESTAMP, 'The best group ever!');
 
 -- Insert data into group_invitation.
