@@ -4,7 +4,7 @@ CREATE TABLE reading
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(40) NOT NULL,
     creation_time timestamp,
-    description CHAR(500) NOT NULL,
+    text CHAR(500) NOT NULL,
     BG_passage_reference CHAR(40) NOT NULL,
     CONSTRAINT author_id_fk FOREIGN KEY (id) REFERENCES user (id)
 );
