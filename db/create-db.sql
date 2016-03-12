@@ -58,7 +58,7 @@ CREATE TABLE 'group'
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(100) NOT NULL,
     public BOOLEAN NOT NULL,
-    creation_time timestamp,
+    creation_time DATE,
     description CHAR(500) NOT NULL
 );
 CREATE UNIQUE INDEX group_id_uindex ON 'group' (id);
