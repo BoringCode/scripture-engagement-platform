@@ -1,5 +1,5 @@
 -- Insert data into trip reading.
-INSERT INTO reading (name, creation_time, description,BG_passage_reference)
+INSERT INTO reading (name, creation_time, text,BG_passage_reference)
 VALUES ('Reading for Moday', TIMESTAMP , 'A reading about patience','1 Corinthians 13:4-5');
 
 -- Insert data into trip content.
