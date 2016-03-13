@@ -24,15 +24,15 @@
 <div class="container">
 	{% with messages = get_flashed_messages(with_categories=True) %}
 	{% if messages %}
-	<div class="row">
-		<div class="col-md-12">
 			{{utils.flashed_messages(messages)}}
-		</div>
-	</div>
 	{%- endif %}
 	{%- endwith %}
 
-	{% block main %}{% endblock %}
+	<div class="row main">
+		<div class="col-md-8">
+			{% block main %}{% endblock %}
+		</div>
+	</div>
 
 	{% block footer %}
 		<footer>
