@@ -1,5 +1,7 @@
 {% extends "bootstrap/base.html" %}
 
+{% import "bootstrap/utils.html" as utils %}
+
 {% block title %}Scripture Engagement{% endblock %}
 
 {% block html_attribs %} lang="en"{% endblock %}
@@ -18,8 +20,25 @@
 	{{nav.frontend_top.render()}}
 {% endblock %}
 
-{% block footer %}
-	<footer>
-		<p>Test</p>
-	</footer>
+{% block content %}
+<div class="container">
+	{% with messages = get_flashed_messages(with_categories=True) %}
+	{% if messages %}
+	<div class="row">
+		<div class="col-md-12">
+			{{utils.flashed_messages(messages)}}
+		</div>
+	</div>
+	{%- endif %}
+	{%- endwith %}
+
+	{% block main %}{% endblock %}
+
+	{% block footer %}
+		<footer>
+			<p>This will be our footer someday</p>
+		</footer>
+	{% endblock %}
+</div>
 {% endblock %}
+
