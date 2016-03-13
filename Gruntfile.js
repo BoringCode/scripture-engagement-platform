@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 		},
 		sass: {
 			options: {
-				includePaths: ['node_modules/bootstrap-sass/assets/stylesheets/']
+				includePaths: ['node_modules/bootstrap-sass/assets/stylesheets/', 'src/scss/']
 			},
 			dist: {
 				files: {
