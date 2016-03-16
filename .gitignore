@@ -9,6 +9,7 @@ node_modules/
 
 # Ignore IDE directory
 .idea
+.orange.db.sqlite
 
 #Ignore database files
 *.db
