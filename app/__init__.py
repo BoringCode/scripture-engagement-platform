@@ -20,8 +20,10 @@ def after(exception):
 
 #Load blueprints
 from app.readings.controllers import readings as readings_module
+from app.content.controllers import content as content_module
 
 app.register_blueprint(readings_module)
+app.register_blueprint(content_module)
 
 @app.route("/hello")
 def hello():
