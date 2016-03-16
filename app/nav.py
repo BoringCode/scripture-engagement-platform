@@ -7,6 +7,12 @@ nav = Nav()
 nav.register_element('frontend_top', Navbar(
     View('Scripture Engagement', '.index'),
     View('Home', '.index'),
+    Subgroup(
+        'Readings',
+        View('View Readings', '.all_readings'),
+        View('Add Reading', '.add_reading'),
+        Separator(),
+    ),
 ))
 
 
