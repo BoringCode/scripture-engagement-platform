@@ -23,6 +23,10 @@ from app.readings.controllers import readings as readings_module
 
 app.register_blueprint(readings_module)
 
+@app.route("/hello")
+def hello():
+	return "HELLO"
+
 
 #Set up navigation
 from app.nav import nav

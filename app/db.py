@@ -19,6 +19,10 @@ class DB():
 		cursor = self.connection.execute(query, arguments)
 		return cursor
 
+	def commit(self):
+		return self.connection.commit()
+
+
 	def close(self, exception):
 		try:
 			self.connection.close()

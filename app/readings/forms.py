@@ -10,10 +10,3 @@ class AddReading(Form):
 	BG_passage_reference = TextField('Passage Reference', validators=[Length(min=1,max=50)])
 	submit = SubmitField('Add Reading to Database')
 
-class IndivReading(Form):
-	id = TextField('Reading Number')
-	name = TextField('Reading Name')
-	creation_time = DateTimeField('Creation Data')
-	text = TextField('Description of Reading')
-	BG_passage_reference = TextField('Passage Reference')
-	submit = SubmitField('Done Reading')
