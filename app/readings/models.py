@@ -16,9 +16,6 @@ def all_readings():
     cursor = g.db.execute('select * from reading')
     return cursor.fetchall()
 
-def new_reading(name, BG_passage_reference):
-    return g.db.execute('SELECT * FROM reading WHERE name = :name AND BG_passage_reference = :BG_passage_reference', {"name": name, "BG_passage_reference": BG_passage_reference}).fetchone()
-
 #delete readings
 def delete_reading(id):
     delete_reading_content(id, False)
