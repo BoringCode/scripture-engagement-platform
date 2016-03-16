@@ -2,11 +2,12 @@ DROP TABLE IF EXISTS reading;
 CREATE TABLE reading
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author_id INTEGER FOREIGN KEY,
     name CHAR(40) NOT NULL,
-    creation_time timestamp,
+    creation_time INTEGER,
     text CHAR(500) NOT NULL,
     BG_passage_reference CHAR(40) NOT NULL,
-    CONSTRAINT author_id_fk FOREIGN KEY (id) REFERENCES user (id)
+    CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX reading_id_uindex ON reading (id);
 
@@ -14,12 +15,14 @@ DROP TABLE IF EXISTS content;
 CREATE TABLE content
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author_id INTEGER FOREIGN KEY,
+    content_type INTEGER FOREIGN KEY,
     name CHAR(40) NOT NULL,
-    creation_time timestamp,
+    creation_time INTEGER,
     approved BOOLEAN DEFAULT FALSE,
     content CHAR(1000) NOT NULL,
-    CONSTRAINT content_id_fk FOREIGN KEY (id) REFERENCES content_type (id),
-    CONSTRAINT author_id_fk FOREIGN KEY (id) REFERENCES user (id)
+    CONSTRAINT content_id_fk FOREIGN KEY (content_type) REFERENCES content_type (id),
+    CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX content_id_uindex ON content (id);
 
