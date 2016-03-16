@@ -1,14 +1,18 @@
 <html>
-{% extends "../base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Individual Reading Page{% endblock %}
 
-{% block content %}
+{% block main %}
 <h2>Individual Reading Page</h2>
 
 <div id="introinfo">
     <h2>Introductory Paragraph and Info Goes here</h2>
     <p>"Welcome to the Individual Reading Page! Select the Scripture passage - associated media will be displayed upon request.</p>
+</div>
+
+<div id="readinginfo">
+    <p>{{form|render_form()}}</p>
 </div>
 
 <div id="video">
