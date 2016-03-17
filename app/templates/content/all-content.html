@@ -1,0 +1,32 @@
+   {% extends "base.html" %}
+{% block title %}All Content in DB{% endblock %}
+{% block main %}
+    <h1>All the Content in DB</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Content ID</th>
+            <th>Name</th>
+            <th>Creation Time</th>
+            <th>Approved?</th>
+            <th>Content</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in readings %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.creation_time }}</td>
+                <td>{{ row.text}}</td>
+                <td>{{ row.BG_passage_reference }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Trips</td>
+            </tr>
+        {%  endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
