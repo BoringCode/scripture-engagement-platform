@@ -16,6 +16,10 @@ def all_readings():
     cursor = g.db.execute('select * from reading')
     return cursor.fetchall()
 
+def all_readings():
+    cursor = g.db.execute('select * from reading')
+    return cursor.fetchall()
+
 #delete readings
 def delete_reading(id):
     delete_reading_content(id, False)
