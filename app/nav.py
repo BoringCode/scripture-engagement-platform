@@ -9,7 +9,7 @@ nav.register_element('frontend_top', Navbar(
     View('Home', '.index'),
     Subgroup(
         'Readings',
-        #View('View Readings', 'readings.all_readings'),
+        View('View Readings', 'readings.all_readings'),
         View('Add Reading', 'readings.add_reading'),
         Separator(),
     ),
