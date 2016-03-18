@@ -5,8 +5,8 @@ from markupsafe import escape
 nav = Nav()
 
 nav.register_element('frontend_top', Navbar(
-    View('Scripture Engagement', '.index'),
-    View('Home', '.index'),
+    View('Scripture Engagement', 'readings.index'),
+    View('Home', 'readings.index'),
     Subgroup(
         'Readings',
         View('View Readings', 'readings.all_readings'),

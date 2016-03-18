@@ -19,26 +19,25 @@ def index():
 def add_reading():
 	add_reading_form = forms.AddReading()
 	if add_reading_form.validate_on_submit():
-		reading = models.find_reading(add_reading_form.id.data)
-		if reading is None:
-			rowcount = models.add_reading_to_db(add_reading_form.id.data,
-												 add_reading_form.name.data,
-												 add_reading_form.creation_time.data,
-												 add_reading_form.text.data,
-												 add_reading_form.BG_passage_reference.data)
-			if rowcount == 1:
-				flash('Reading Added')
-				return redirect(url_for('readings.all_readings'))
-			else:
-				flash("Reading not added.")
+		#reading = models.find_reading(add_reading_form.id.data)
+		#if reading is None:
+		rowcount = models.add_reading_to_db( add_reading_form.name.data,
+											 add_reading_form.creation_time.data,
+											 add_reading_form.text.data,
+											 add_reading_form.BG_passage_reference.data)
+		if rowcount == 1:
+			flash('Reading Added')
+			return redirect(url_for('readings.all_readings'))
 		else:
-			flash("Reading '{}' already exists".format(add_reading_form.id.data))
+			flash("Reading not added.")
+		#else:
+			#flash("Reading '{}' already exists".format(add_reading_form.id.data))
 	return render_template('readings/add-reading.html', form=add_reading_form)
 
 @readings.route('/all-readings')
 def all_readings():
 	return render_template('readings/showmeallreadings.html', readings=models.all_readings())
 
-	return render_template("readings/add-reading.html", form=form)
+
 
 
