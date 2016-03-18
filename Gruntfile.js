@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		watch: {
 			src: {
-				files: ['src/', 'node_modules/bootstrap-sass'],
+				files: ['src/**/*', 'node_modules/bootstrap-sass'],
 				tasks: ['dev'],
 			}
 		},
