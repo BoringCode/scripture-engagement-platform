@@ -12,6 +12,16 @@ nav.register_element('frontend_top', Navbar(
         View('View Readings', 'readings.all_readings'),
         View('Add Reading', 'readings.add_reading'),
     ),
+    Subgroup(
+        'Content',
+        View('View Content', 'content.all_content'),
+        View('Add Content', 'content.add_content'),
+    ),
 ))
+
+nav.register_element('frontend_foot', Navbar(
+    Text("Scripture Engagement ISD Team Orange 2016"),
+))
+
 
 

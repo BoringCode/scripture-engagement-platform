@@ -1,17 +1,9 @@
+{% import "bootstrap/wtf.html" as wtf %}
 {% extends "base.html" %}
 
 {% block main %}
 <div class="col-md-12">
-    {% if form.errors %}
-        <ul>
-            {% for field_name in form.errors %}
-                {% for field_error in form.errors[field_name] %}
-                    <li>{{ form[field_name].label }}: {{ field_error }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
-    {% endif %}
-	{{form|render_form()}}
+    <h2>Add Content</h2>
+    {{ wtf.quick_form(form, form_type="horizontal") }}
 </div>
-
 {% endblock %}
