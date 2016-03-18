@@ -9,18 +9,24 @@ import app.readings.models as models
 # Create blueprint for readings routes
 readings = Blueprint('readings', __name__)
 
-# Display index page
+# Display readings
 @readings.route('/')
-def index():
-	flash("Welcome")
-	return render_template('readings/index.html')
+def all_readings():
+	return render_template('readings/index.html', readings=models.all_readings())
 
-@readings.route("/add-reading/", methods=["GET", "POST"])
+@readings.route("/<id>/")
+def show_reading(id):
+	"""Display an individual reading by ID"""
+	reading = models.find_reading(id)
+	if reading is None:
+		abort(404)
+	#Do additional things if needed
+	return render_template("readings/show-reading.html", reading=reading)
+
+@readings.route("/add/", methods=["GET", "POST"])
 def add_reading():
 	add_reading_form = forms.AddReading()
 	if add_reading_form.validate_on_submit():
-		#reading = models.find_reading(add_reading_form.id.data)
-		#if reading is None:
 		rowcount = models.add_reading_to_db( add_reading_form.name.data,
 											 add_reading_form.creation_time.data,
 											 add_reading_form.text.data,
@@ -34,9 +40,6 @@ def add_reading():
 			#flash("Reading '{}' already exists".format(add_reading_form.id.data))
 	return render_template('readings/add-reading.html', form=add_reading_form)
 
-@readings.route('/all-readings')
-def all_readings():
-	return render_template('readings/showmeallreadings.html', readings=models.all_readings())
 
 
 

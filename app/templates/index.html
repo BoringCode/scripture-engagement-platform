@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<h2>Welcome to the Center for Scripture Engagement</h2>
+    <div id="intro_content">
+    <p>The goal of scripture engagement is to encourage others towards a deeper understanding of God's Word. This exists as a resource to further facilitate this study, within the context of group discussion, media such as pictures, video, music, links, etc. </p>
+    </div>
+
+    <div id="links">
+    <p><a href="{{ url_for('readings.all_readings') }}">Reading and Content</a></p>
+    <p>Group Discussion Board</p>
+    <p>User Control (another sprint)</p>
+    </div>
+
+
+{%- endblock %}

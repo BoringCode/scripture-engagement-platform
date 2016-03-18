@@ -1,16 +1,19 @@
-{% extends "base.html" %}
-
+   {% extends "base.html" %}
+{% block title %}All Readings in DB{% endblock %}
 {% block main %}
-	<h2>Welcome to the Center for Scripture Engagement</h2>
-    <div id="intro_content">
-    <p>The goal of scripture engagement is to encourage others towards a deeper understanding of God's Word. This exists as a resource to further facilitate this study, within the context of group discussion, media such as pictures, video, music, links, etc. </p>
+    <div class="panel panel-default">
+        <div class="panel-heading">All Readings</div>
+        <div class="panel-body">
+            <p>This is a temporary display of all the available readings. Eventually we will need to implement plans and scheduling what readings are available.</p>
+        </div>
+        <ul class="list-group">
+        {% for reading in readings %}
+            <li class="list-group-item">
+                <a href="{{ url_for('readings.show_reading', id=reading.id) }}">{{reading.name}}</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No readings found</li>
+        {% endfor %}
+        </ul>
     </div>
-
-    <div id="links">
-    <p><a href="indiv_reading.html">Reading and Content</a></p>
-    <p>Group Discussion Board</p>
-    <p>User Control (another sprint)</p>
-    </div>
-
-
-{%- endblock %}
+{% endblock %}

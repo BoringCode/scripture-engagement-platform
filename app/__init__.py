@@ -22,12 +22,14 @@ def after(exception):
 from app.readings.controllers import readings as readings_module
 from app.content.controllers import content as content_module
 
-app.register_blueprint(readings_module)
+app.register_blueprint(readings_module, url_prefix="/readings")
 app.register_blueprint(content_module)
 
-@app.route("/hello")
-def hello():
-	return "HELLO"
+
+# Home page
+@app.route("/")
+def index():
+	return render_template("index.html")
 
 
 #Set up navigation

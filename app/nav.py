@@ -5,13 +5,12 @@ from markupsafe import escape
 nav = Nav()
 
 nav.register_element('frontend_top', Navbar(
-    View('Scripture Engagement', 'readings.index'),
-    View('Home', 'readings.index'),
+    View('Scripture Engagement', 'index'),
+    View('Home', 'index'),
     Subgroup(
         'Readings',
         View('View Readings', 'readings.all_readings'),
         View('Add Reading', 'readings.add_reading'),
-        Separator(),
     ),
 ))
 

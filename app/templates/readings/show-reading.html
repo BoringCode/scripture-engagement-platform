@@ -1,0 +1,21 @@
+<html>
+{% extends "base.html" %}
+
+{% block title %}Reading - {{reading.name}}{% endblock %}
+
+{% block main %}
+<h2>{{reading.name}}</h2>
+
+<p><strong>Passage:</strong> {{reading.BG_passage_reference}}</p>
+
+<p>{{reading.text}}</p>
+
+{% endblock %}
+
+
+
+
+
+
+
+</html>
