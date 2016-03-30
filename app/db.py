@@ -19,6 +19,16 @@ class DB():
 		cursor = self.connection.execute(query, arguments)
 		return cursor
 
+	# @param String script (path to script file)
+	def executeScript(self, script):
+		try:
+			f = open(script, "r")
+			self.connection.cursor().executescript(f.read())
+			self.commit()
+			return True
+		except:
+			return False
+
 	def commit(self):
 		return self.connection.commit()
 
