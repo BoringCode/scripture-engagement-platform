@@ -39,8 +39,8 @@ class ApplicationTestCase(FlaskTestCase):
         resp = self.client.get('/')
         self.assertTrue('Welcome to the Center for Scripture Engagement' in str(resp.data), "Didn't find welcome message on home page")
 
-    def test_user_page(self):
-        """Verify the user page."""
+    def test_reading_index(self):
+        """Verify the reading index page."""
         resp = self.client.get(url_for('readings.all_readings'))
         self.assertTrue('All Readings' in str(resp.data))
 
