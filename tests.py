@@ -64,15 +64,36 @@ class ModelTestCase(FlaskTestCase):
 
     def setUp(self):
         """Open the database connection and create all the tables."""
-        super(DatabaseTestCase, self).setUp()
-        g.db = DB()
+        super(ModelTestCase, self).setUp()
+        g.db = DB(db_path = self.file_name)
         g.db.executeScript('app/db/create-db.sql')
 
     def tearDown(self):
         """Clear all tables in the database and close the connection."""
         g.db.executeScript('app/db/clear-db.sql')
-        g.db.close()
-        super(DatabaseTestCase, self).tearDown()
+        g.db.close(False)
+        super(ModelTestCase, self).tearDown()
+
+class ReadingsTestCase(ModelTestCase):
+
+    example_reading = {
+        "name": "Some reading",
+        "description": "A description",
+        "passage": "John 3:16"
+    }
+
+    def test_create_reading(self):
+        rowcount = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["passage"])
+        self.assertEqual(rowcount, 1)
+
+        #Should have an index of 1
+        test_reading = readings_model.find_reading(1)
+        self.assertIsNotNone(test_reading)
+
+        #Make sure the inserted reading matches our test data
+        self.assertEqual(test_reading["name"], self.example_reading["name"])
+        self.assertEqual(test_reading["text"], self.example_reading["description"])
+        self.assertEqual(test_reading["BG_passage_reference"], self.example_reading["passage"])
 
 if __name__ == '__main__':
     unittest.main()

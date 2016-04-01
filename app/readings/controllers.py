@@ -29,7 +29,6 @@ def add_reading():
 	add_reading_form = forms.AddReading()
 	if add_reading_form.validate_on_submit():
 		rowcount = models.add_reading_to_db( add_reading_form.name.data,
-											 add_reading_form.creation_time.data,
 											 add_reading_form.text.data,
 											 add_reading_form.BG_passage_reference.data)
 		if rowcount == 1:

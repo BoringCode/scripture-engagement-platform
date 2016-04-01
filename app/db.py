@@ -22,11 +22,13 @@ class DB():
 	# @param String script (path to script file)
 	def executeScript(self, script):
 		try:
-			f = open(script, "r")
+			f = open(os.path.join(os.getcwd(), script), "r")
 			self.connection.cursor().executescript(f.read())
 			self.commit()
+			f.close()
 			return True
 		except:
+			raise RuntimeError("Can't execute script: " + str(os.path.join(os.getcwd(), script)))
 			return False
 
 	def commit(self):
