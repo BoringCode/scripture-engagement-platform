@@ -1,3 +1,4 @@
+-- Reading table
 DROP TABLE IF EXISTS reading;
 CREATE TABLE reading
 (
@@ -11,6 +12,7 @@ CREATE TABLE reading
 );
 CREATE UNIQUE INDEX reading_id_uindex ON reading (id);
 
+-- Content table
 DROP TABLE IF EXISTS content;
 CREATE TABLE content
 (
@@ -26,6 +28,7 @@ CREATE TABLE content
 );
 CREATE UNIQUE INDEX content_id_uindex ON content (id);
 
+-- Reading Content table
 DROP TABLE IF EXISTS reading_content;
 CREATE TABLE reading_content
 (
@@ -34,6 +37,7 @@ CREATE TABLE reading_content
     PRIMARY KEY (reading_id,content_id)
 );
 
+-- Content Type table
 DROP TABLE IF EXISTS content_type;
 CREATE TABLE content_type
 (
@@ -42,6 +46,7 @@ CREATE TABLE content_type
 );
 CREATE UNIQUE INDEX content_type_id_uindex ON content_type (id);
 
+-- User table
 DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
@@ -55,8 +60,9 @@ CREATE TABLE user
 );
 CREATE UNIQUE INDEX user_id_uindex ON user (id);
 
-DROP TABLE IF EXISTS 'group';
-CREATE TABLE 'group'
+-- Group table
+DROP TABLE IF EXISTS group;
+CREATE TABLE group
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(100) NOT NULL,
@@ -66,6 +72,7 @@ CREATE TABLE 'group'
 );
 CREATE UNIQUE INDEX group_id_uindex ON 'group' (id);
 
+--Group Invitation table
 DROP TABLE IF EXISTS group_invitation;
 CREATE TABLE group_invitation
 (
@@ -74,3 +81,67 @@ CREATE TABLE group_invitation
     creation_time timestamp,
     PRIMARY KEY (user_id, group_id)
 );
+
+-- Plan table
+DROP TABLE IF EXISTS plans;
+CREATE TABLE plans
+(
+    id INT PRIMARY KEY,
+    author_id_fk INTEGER,
+    name CHAR(40) NOT NULL,
+    creation_time INTEGER,
+    discription CHAR(1000) NOT NULL,
+
+    FOREIGN KEY (author_id_fk) REFERENCES user (id)
+);
+CREATE UNIQUE INDEX plans_id_uindex ON plans (id);
+
+-- Reading Plan table
+DROP TABLE IF EXISTS plan_reading;
+CREATE TABLE plan_reading
+(
+    plans_id INTEGER,
+    reading_id INTEGER,
+    start_time_offset INTEGER,
+    end_time_offset INTEGER,
+    PRIMARY KEY (plans_id,reading_id)
+);
+
+-- Subscription table
+DROP TABLE IF EXISTS subscription;
+CREATE TABLE subscription
+(
+    plans_id INTEGER,
+    user_id INTEGER,
+    creation_time INTEGER,
+    PRIMARY KEY (plans_id,user_id)
+);
+
+-- Group Subscription table
+DROP TABLE IF EXISTS group_subscription;
+CREATE TABLE group_subscription
+(
+    plans_id INTEGER,
+    group_id INTEGER,
+    creation_time INTEGER,
+    PRIMARY KEY (plans_id,group_id)
+);
+
+-- Feedback table
+DROP TABLE IF EXISTS feedback;
+CREATE TABLE feedback
+(
+    id INT PRIMARY KEY,
+    author_id_fk INTEGER,
+    plan_id_fk INTEGER,
+    content_id_fk INTEGER,
+    reading_id_fk INTEGER,
+    comment CHAR(1000) NOT NULL,
+    creation_time INTEGER,
+
+    FOREIGN KEY (author_id_fk) REFERENCES user (id),
+    FOREIGN KEY (plan_id_fk) REFERENCES plan (id),
+    FOREIGN KEY (content_id_fk) REFERENCES content (id),
+    FOREIGN KEY (reading_id_fk) REFERENCES reading (id)
+);
+CREATE UNIQUE INDEX feedback_id_uindex ON feedback (id);
