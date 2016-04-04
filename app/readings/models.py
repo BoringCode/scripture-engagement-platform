@@ -41,8 +41,8 @@ def delete_plan_reading(plan_id, reading_id):
     return True
 
 #update reading
-def update_reading(name, text, reference):
+def update_reading(id, name, text, reference):
     query ='''
-      UPDATE reading SET name=?, text=?, BG_passage_reference=? WHERE id = :id
+      UPDATE reading SET name=:name, text=:text, BG_passage_reference=:reference WHERE id = :id
     '''
-    return g.db.execute(query, (name, text, reference))
+    return g.db.execute(query, {"id": id, "name": name, "text": text, "reference": reference}).rowcount
