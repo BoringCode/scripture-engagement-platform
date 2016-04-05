@@ -83,17 +83,37 @@ class ReadingsTestCase(ModelTestCase):
     }
 
     def test_create_reading(self):
-        rowcount = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["passage"])
-        self.assertEqual(rowcount, 1)
+        """Check that readings can be created"""
+        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["passage"])
+        self.assertEqual(row_count, 1)
 
         #Should have an index of 1
         test_reading = readings_model.find_reading(1)
-        self.assertIsNotNone(test_reading)
+        self.assertIsNotNone(test_reading, "Only one reading should be inserted into the DB")
 
         #Make sure the inserted reading matches our test data
         self.assertEqual(test_reading["name"], self.example_reading["name"])
         self.assertEqual(test_reading["text"], self.example_reading["description"])
         self.assertEqual(test_reading["BG_passage_reference"], self.example_reading["passage"])
+
+    def test_update_reading(self):
+        """Ensure that readings can be updated"""
+        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["passage"])
+        self.assertEqual(row_count, 1)
+
+        #Check if the update was actually executed in the DB
+        row_count = readings_model.update_reading(1, "Updated reading", "Some words in the description", "Genesis 1:1")
+        self.assertEqual(row_count, 1, "One reading row should be updated")
+
+        #Grab the created reading from the database and make sure its data matches the updated data
+        test_reading = readings_model.find_reading(1)
+        self.assertIsNotNone(test_reading)
+        self.assertEqual(test_reading["name"], "Updated reading")
+        self.assertEqual(test_reading["text"], "Some words in the description")
+        self.assertEqual(test_reading["BG_passage_reference"], "Genesis 1:1")
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
