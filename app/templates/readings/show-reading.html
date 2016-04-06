@@ -9,4 +9,23 @@
 
 <p>{{reading.text}}</p>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">All Content</div>
+        <div class="panel-body">
+            <p>This is a temporary display of all the available content. Eventually we will need to implement what/how each type of content is displayed.</p>
+        </div>
+        <ul class="list-group">
+        {% for content in contents %}
+            <li class="list-group-item">
+                <tr>
+                    <td>{{content.name}}</td>
+                    <td>{{ content.content }}</td>
+                </tr>
+                </li>
+        {% else %}
+            <li class="list-group-item">No content found</li>
+        {% endfor %}
+        </ul>
+    </div>
+
 {% endblock %}

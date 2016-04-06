@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS reading;
 CREATE TABLE reading
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    author_id INTEGER FOREIGN KEY,
+    author_id INTEGER,
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
     text CHAR(500) NOT NULL,
@@ -17,8 +17,8 @@ DROP TABLE IF EXISTS content;
 CREATE TABLE content
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    author_id INTEGER FOREIGN KEY,
-    content_type INTEGER FOREIGN KEY,
+    author_id INTEGER,
+    content_type INTEGER,
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
     approved BOOLEAN DEFAULT FALSE,
@@ -86,7 +86,7 @@ CREATE TABLE group_invitation
 DROP TABLE IF EXISTS plans;
 CREATE TABLE plans
 (
-    id INT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     author_id_fk INTEGER,
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
@@ -131,7 +131,7 @@ CREATE TABLE group_subscription
 DROP TABLE IF EXISTS feedback;
 CREATE TABLE feedback
 (
-    id INT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     author_id_fk INTEGER,
     plan_id_fk INTEGER,
     content_id_fk INTEGER,
