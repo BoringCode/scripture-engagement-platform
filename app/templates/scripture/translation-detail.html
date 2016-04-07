@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% set xlation_abbr = translation.attribution.translation %}
+{% set xlation_name = translation.attribution.translation_name %}
+
+{% block title %}{{ xlation_name }}{% endblock %}
+
+{% block content %}
+    <h2>{{ xlation_name }}</h2>
+
+    <ol>
+    {% for book in translation.books %}
+        <li><a href="{{ url_for('scripture.get_book_info', xlation=xlation_abbr, book_osis=book.osis) }}">{{ book.display }}</a></li>
+    {% endfor %}
+    </ol>
+{% endblock %}
+
