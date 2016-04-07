@@ -41,6 +41,18 @@ Front-end development should be performed in the `src/` folder. We are using SAS
 Development on the Flask application occurs in `app/`. We are following a module system. Individual features of the application (such as plans, accounts, readings, groups, etc..) should be split out into their own module. Each module should contain `controllers.py`, `models.py`, and `forms.py` with each piece of functionality split up accordingly. Controllers should be implemented as [blueprints](http://flask.pocoo.org/docs/0.10/blueprints/) which are then instantiated on the main app controller in `app/__init__.py`.
 
 
+## Tests
+
+Tests are an important part of maintaining application quality. During development tests should be used to ensure that functionality is working as intended.
+
+Run tests while within the virtualenv (or while using Flask)
+
+```bash
+$ python tests.py
+``` 
+
+Tests **must** be written and passing before pushing changes to the master branch.
+
 ## Team Members
 - Bradley Rosenfeld
 - Lindsay Robinson
