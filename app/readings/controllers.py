@@ -22,7 +22,7 @@ def show_reading(id):
 	if reading is None:
 		abort(404)
 	#Do additional things if needed
-	return render_template("readings/show-reading.html",contents =models.all_reading_content(), reading=reading)
+	return render_template("readings/show-reading.html",contents=models.all_reading_content(id), reading=reading)
 
 @readings.route("/add/", methods=["GET", "POST"])
 def add_reading():

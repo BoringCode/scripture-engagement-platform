@@ -45,13 +45,13 @@ def update_reading(name, text, reference):
     return g.db.execute(query, (name, text, reference))
 
 #reading content
-def all_reading_content():
+def all_reading_content(reading_id):
     query = '''
         SELECT content.name, content.content
-        FROM content reading, reading_content
-        WHERE (content.id=reading_content.content_id) AND (reading.id=reading_content.reading_id)
+        FROM content, reading, reading_content
+        WHERE (content.id=reading_content.content_id) AND (reading.id=reading_content.reading_id) AND (reading.id= :reading_id)
         ORDER BY content.id;
     '''
 
-    cursor = g.db.execute(query)
+    cursor = g.db.execute(query, {"reading_id":reading_id})
     return cursor.fetchall()
