@@ -1,4 +1,5 @@
 from flask import g
+import time
 
 # find plan
 def find_plan(id):
