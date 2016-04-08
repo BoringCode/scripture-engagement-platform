@@ -41,7 +41,7 @@ This file should be titled "bg-keys.json" and stored in the application root. In
 
 ```json
 {
-  "access_token": [INSERT UNEXPIRED ACCESS TOKEN HERE]
+  "access_token": "INSERT UNEXPIRED ACCESS TOKEN HERE"
 }
 ```
 
