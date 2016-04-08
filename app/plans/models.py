@@ -17,6 +17,10 @@ def add_plan_to_db(author_id, name, description):
     g.db.commit()
     return cursor.rowcount
 
+def all_plans():
+    cursor = g.db.execute('select * from plans')
+    return cursor.fetchall()
+
 def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_ime_offset):
     query = '''
         INSERT INTO plan_reading (plans_id, reading_id, start_time_offset, end_time_offset)

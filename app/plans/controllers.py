@@ -11,9 +11,10 @@ import app.plans.models as models
 plans = Blueprint('plans', __name__)
 
 # Display plan
-@plans.route('/')
-def plan(id):
-	return render_template('plan/index.html', plan=models.find_plan(id))
+
+@plans.route('/plans')
+def plan():
+	return render_template('plans/index.html', plan=models.all_plans())
 
 @plans.route("/<id>/")
 def show_plan(id):
@@ -22,7 +23,7 @@ def show_plan(id):
 	if plan is None:
 		abort(404)
 	#Do additional things if needed
-	return render_template("plan/show-indiv-plan.html", plan=plan)
+	return render_template("plans/show-plan.html", plan=plan)
 
 @plans.route("/add/", methods=["GET", "POST"])
 def add_plan():
@@ -38,6 +39,6 @@ def add_plan():
 			flash("Plan not added.")
 		#else:
 			#flash("Plan '{}' already exists".format(add_plan_form.id.data))
-	return render_template('plans/indiv-plan.html', form=add_plan_form)
+	return render_template('plans/show-plan.html', form=add_plan_form)
 
 
