@@ -4,6 +4,10 @@ import time
 def find_reading(id):
 	return g.db.execute('SELECT * FROM reading WHERE id = :id', {"id": id}).fetchone()
 
+def get_posts(id):
+    query = "SELECT * FROM post LEFT JOIN reading_post ON reading_post.post_id = post.id WHERE reading_post.reading_id = :id ORDER BY time DESC"
+    return g.db.execute(query, {"id": id}).fetchall()
+
 def add_reading_to_db(name,text, BG_passage_reference):
     #Get creation time
     creation_time = time.time()

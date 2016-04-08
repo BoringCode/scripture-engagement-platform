@@ -7,6 +7,9 @@ import app.readings.forms as forms
 # Import models
 import app.readings.models as models
 
+# Import posts forms
+import app.posts.forms as posts_forms
+
 # Create blueprint for readings routes
 readings = Blueprint('readings', __name__)
 
@@ -22,7 +25,10 @@ def show_reading(id):
 	if reading is None:
 		abort(404)
 	#Do additional things if needed
-	return render_template("readings/show-reading.html", reading=reading)
+	posts = models.get_posts(id)
+	print(posts)
+	post_form = posts_forms.NewPost(originator_type="reading", originator_id=id)
+	return render_template("readings/show-reading.html", reading=reading, posts=posts, post_form=post_form)
 
 @readings.route("/add/", methods=["GET", "POST"])
 def add_reading():

@@ -143,3 +143,28 @@ CREATE TABLE feedback
     FOREIGN KEY (reading_id_fk) REFERENCES reading(id)
 );
 CREATE UNIQUE INDEX feedback_id_uindex ON feedback (id);
+
+
+-- Post table
+DROP TABLE IF EXISTS post;
+CREATE TABLE post
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id_fk INTEGER,
+    approved BOOLEAN DEFAULT TRUE,
+    time INT,
+    message CHAR(1000) NOT NULL,
+    FOREIGN KEY (user_id_fk) REFERENCES user(id)
+);
+CREATE UNIQUE INDEX post_id_uindex ON post(id);
+
+-- Connect posts to readings
+DROP TABLE IF EXISTS reading_post;
+CREATE TABLE reading_post
+(
+    reading_id INT,
+    post_id INT,
+    PRIMARY KEY (reading_id, post_id),
+    FOREIGN KEY (reading_id) REFERENCES reading(id),
+    FOREIGN KEY (post_id) REFERENCES post(id)
+);

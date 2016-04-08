@@ -1,0 +1,15 @@
+<h3>Discussion</h3>
+
+ <ul class="list-group">
+{% for post in posts %}
+    <li class="list-group-item">
+    	<h4>Author Name</h4>
+    	<time>{{ post.time|strftime }}</time>
+        <p>{{post.message}}</p>
+    </li>
+{% else %}
+    <li class="list-group-item">No comments found</li>
+{% endfor %}
+</ul>
+
+{% include "posts/post-form.html" %}

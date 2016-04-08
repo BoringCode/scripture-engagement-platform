@@ -7,3 +7,5 @@ DELETE FROM content_type;
 DELETE FROM user;
 DELETE FROM user_group;
 DELETE FROM group_invitation;
+DELETE FROM post;
+DELETE FROM reading_post;
