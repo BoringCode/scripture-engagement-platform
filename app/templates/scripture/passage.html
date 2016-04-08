@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ verse.reference }}{% endblock %}
+
+{% block content %}
+    <h2>{{ verse.reference }}</h2>
+    {{ verse.content|safe }}
+{% endblock %}
+
