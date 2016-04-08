@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Plan - {{plan.name}}{% endblock %}
+
+{% block main %}
+<h2>{{plan.name}}</h2>
+
+<p><strong>Creation Time:</strong> {{plan.creation_time}}</p>
+
+<p>{{plan.description}}</p>
+
+{% endblock %}

@@ -24,11 +24,10 @@ def show_reading(id):
 	reading = models.find_reading(id)
 	if reading is None:
 		abort(404)
-	#Do additional things if needed
+	# Grab discussion board
 	posts = models.get_posts(id)
-	print(posts)
 	post_form = posts_forms.NewPost(originator_type="reading", originator_id=id)
-	return render_template("readings/show-reading.html", reading=reading, posts=posts, post_form=post_form)
+	return render_template("readings/show-reading.html", reading=reading, contents=models.all_reading_content(id), posts=posts, post_form=post_form)
 
 @readings.route("/add/", methods=["GET", "POST"])
 def add_reading():

@@ -17,7 +17,11 @@ nav.register_element('frontend_top', Navbar(
         View('View Content', 'content.all_content'),
         View('Add Content', 'content.add_content'),
     ),
-    View('Read Scripture','scripture.list_translations')
+    View('Read Scripture','scripture.list_translations'),
+    Subgroup(
+        'Plans',
+        View('View Plans', 'plans.plan')
+    )
 ))
 
 nav.register_element('frontend_foot', Navbar(

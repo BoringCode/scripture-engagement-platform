@@ -24,8 +24,8 @@ class NewPost(Form):
     comment = TextAreaField("Comment", [required(), Length(max=1000)])
     submit = SubmitField('Post Comment')
     next = HiddenField()
-    originator_type = HiddenField()
-    originator_id = HiddenField()
+    originator_type = HiddenField([required()])
+    originator_id = HiddenField([required()])
 
     def __init__(self, *args, originator_type = None, originator_id = None, **kwargs):
         Form.__init__(self, *args, **kwargs)
