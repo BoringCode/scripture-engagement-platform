@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Available Translations{% endblock %}
+
+{% block content %}
+    <h1>Available Translations</h1>
+
+    <ol>
+        {% for xlation in translations %}
+            <li><a href="{{ url_for('scripture.get_translation_info', xlation=xlation.translation) }}">{{ xlation.translation }}</a></li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

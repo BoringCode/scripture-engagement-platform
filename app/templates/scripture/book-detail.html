@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.display }}{% endblock %}
+
+{% macro passage_href(passage, label) %}
+    <a href="{{ url_for('scripture.get_passage', xlation=translation, passage_osis=passage) }}">{{ label|safe }}</a>
+{% endmacro %}
+
+{% macro chapter_verse_href(chapter, verse) %}
+    {{ passage_href("{}.{}.{}".format(book.osis, chapter, verse), verse) }}
+{% endmacro %}
+
+{% block content %}
+    <h2>{{ book.display }}</h2>
+    <ul>
+        {% for verse_count in book.verses %}
+            {% set chapter = loop.index %}
+            <li>
+                {{ passage_href("{}.{}".format(book.osis, chapter), "Ch&nbsp;{}".format(chapter)) }}
+                &mdash;
+                {% for verse in range(verse_count) %}
+                    {{ chapter_verse_href(chapter, verse + 1) }}
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

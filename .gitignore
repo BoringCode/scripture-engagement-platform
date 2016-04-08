@@ -95,3 +95,6 @@ celerybeat-schedule
 
 # Spyder project settings
 .spyderproject
+
+#BG API Access Token
+bg-keys.json

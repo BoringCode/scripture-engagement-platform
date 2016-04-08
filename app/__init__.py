@@ -21,9 +21,11 @@ def after(exception):
 #Load blueprints
 from app.readings.controllers import readings as readings_module
 from app.content.controllers import content as content_module
+from app.scripture.controllers import scripture as scripture_module
 
 app.register_blueprint(readings_module, url_prefix="/readings")
 app.register_blueprint(content_module)
+app.register_blueprint(scripture_module)
 
 
 # Home page
