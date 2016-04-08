@@ -12,7 +12,7 @@ plans = Blueprint('plans', __name__)
 
 # Display plan
 
-@plans.route('/plans')
+@plans.route('/')
 def plan():
 	return render_template('plans/index.html', plan=models.all_plans())
 
