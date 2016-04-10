@@ -10,7 +10,7 @@
     {{ passage_href("{}.{}.{}".format(book.osis, chapter, verse), verse) }}
 {% endmacro %}
 
-{% block content %}
+{% block main %}
     <h2>{{ book.display }}</h2>
     <ul>
         {% for verse_count in book.verses %}

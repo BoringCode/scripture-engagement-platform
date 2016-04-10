@@ -1,0 +1,7 @@
+body { 
+	padding-top: $navbar-height + 20; 
+}
+
+.scripture-engagement-navbar .container-fluid {
+	@extend .container;
+}

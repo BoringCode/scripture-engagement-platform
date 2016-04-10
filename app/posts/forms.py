@@ -1,4 +1,5 @@
-from urllib.parse import urlparse, urljoin
+#from urllib.parse import urlparse, urljoin
+from urlparse import urlparse, urljoin
 from flask import request, url_for, redirect
 from flask.ext.wtf import Form
 from wtforms import TextAreaField, HiddenField, SubmitField
@@ -27,7 +28,7 @@ class NewPost(Form):
     originator_type = HiddenField([required()])
     originator_id = HiddenField([required()])
 
-    def __init__(self, *args, originator_type = None, originator_id = None, **kwargs):
+    def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
 
         # Set hidden data

@@ -16,17 +16,17 @@
 
 {% block navbar %}
 
-    {{nav.frontend_top.render()}}
+    {{nav.frontend_top.render(renderer="defaultNav")}}
 
 {% endblock %}
 
 {% block content %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+		{{utils.flashed_messages(messages)}}
+{%- endif %}
+{%- endwith %}
 <div class="container">
-	{% with messages = get_flashed_messages(with_categories=True) %}
-	{% if messages %}
-			{{utils.flashed_messages(messages)}}
-	{%- endif %}
-	{%- endwith %}
 
 	<div class="row main">
 		<div class="col-md-8">
