@@ -29,8 +29,8 @@ from app.plans.controllers import plans as plans_module
 
 app.register_blueprint(readings_module, url_prefix="/readings")
 app.register_blueprint(posts_module, url_prefix="/posts")
-app.register_blueprint(content_module)
-app.register_blueprint(scripture_module)
+app.register_blueprint(content_module, url_prefix="/content")
+app.register_blueprint(scripture_module, url_prefix="/scripture")
 app.register_blueprint(plans_module, url_prefix="/plans")
 
 

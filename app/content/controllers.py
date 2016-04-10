@@ -11,7 +11,7 @@ import app.readings.models as reading_models
 content = Blueprint('content', __name__)
 
 # display add reading form
-@content.route("/add-content", methods=["GET", "POST"])
+@content.route("/add/", methods=["GET", "POST"])
 def add_content():
 	add_content_form = forms.AddContent()
 	if add_content_form.validate_on_submit():
@@ -25,8 +25,3 @@ def add_content():
 		else:
 			flash("Content not added.")
 	return render_template('content/add-content.html', form=add_content_form)
-
-#Display all readings in the database
-@content.route('/all-content')
-def all_content():
-	return render_template('content/all-content.html', content=models.all_content())

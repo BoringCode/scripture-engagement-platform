@@ -28,7 +28,6 @@ nav.register_element('frontend_top', Navbar(
     ),
     Subgroup(
         'Content',
-        View('View Content', 'content.all_content'),
         View('Add Content', 'content.add_content'),
     ),
     View('Read Scripture','scripture.list_translations'),

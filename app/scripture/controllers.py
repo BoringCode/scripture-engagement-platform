@@ -7,7 +7,7 @@ scripture = Blueprint('scripture', __name__)
 app = Flask(__name__)
 bg_api = BGAPI()
 
-@scripture.route('/translations')
+@scripture.route('/')
 def list_translations():
     return render_template('scripture/translation-list.html', translations=bg_api.list_translations())
 
