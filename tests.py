@@ -11,6 +11,7 @@ from app.db import DB
 #Import models
 import app.readings.models as readings_model
 import app.content.models as content_model
+import app.posts.models as posts_model
 
 
 class FlaskTestCase(unittest.TestCase):
@@ -111,6 +112,40 @@ class ReadingsTestCase(ModelTestCase):
         self.assertEqual(test_reading["name"], "Updated reading")
         self.assertEqual(test_reading["text"], "Some words in the description")
         self.assertEqual(test_reading["BG_passage_reference"], "Genesis 1:1")
+
+class PostsTestCase(ModelTestCase):
+
+    example_reading = {
+        "name": "Some reading",
+        "description": "A description",
+        "passage": "John 3:16"
+    }
+
+    example_post = {
+        "message": "Hi, this is a message",
+        "user": 1,
+        "originator_type": "reading",
+        "originator_id": 1,
+    }
+
+    def test_create_reading_post(self):
+        """Test creating a discussion post on a reading"""
+        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["passage"])
+        self.assertEqual(row_count, 1)
+
+        # Create post on newly created reading
+        row_count = posts_model.create_post(self.example_post["user"], self.example_post["message"], self.example_post["originator_type"], self.example_post["originator_id"])
+        self.assertEqual(row_count, 1)
+
+        # One post should be associated with the reading
+        posts = readings_model.get_posts(self.example_post["originator_id"])
+        self.assertEqual(len(posts), 1)
+
+        # Make sure created post is the same as the initial data
+        self.assertEqual(posts[0]["message"], self.example_post["message"])
+        self.assertEqual(posts[0]["user_id_fk"], self.example_post["user"])
+
+
 
 
 
