@@ -1,5 +1,4 @@
-#from urllib.parse import urlparse, urljoin
-from urlparse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin
 from flask import request, url_for, redirect
 from flask.ext.wtf import Form
 from wtforms import TextAreaField, HiddenField, SubmitField

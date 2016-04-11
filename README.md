@@ -6,7 +6,7 @@ This is our implementation of the system design presented during the Fall 2015 I
 
 ## Requirements
 
-- Python 2.7
+- Python 3.3+
 - PIP
 - virtualenv
 - [Node Package Manager](https://www.npmjs.com/)
