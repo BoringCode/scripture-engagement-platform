@@ -35,7 +35,7 @@ $ python run.py
 ```
 
 ## API Setup
-In our application we are using the BibleGateway API to get access to our scripture. For any of this functionality to work you must first create a file with an unexpired access token from BibleGateway.
+In our application we are using the Bible Gateway API to get access to our scripture. For any of this functionality to work you must first create a file with an unexpired access token from Bible Gateway. Read the [Bible Gateway API documentation](https://api.biblegateway.com/3/docs) for more information on the API.
 
 This file should be titled "bg-keys.json" and stored in the application root. Inside this file should be the following:
 

@@ -4,7 +4,6 @@ from app.scripture.bg_api import BGAPI
 
 scripture = Blueprint('scripture', __name__)
 
-app = Flask(__name__)
 bg_api = BGAPI()
 
 @scripture.route('/')
@@ -25,9 +24,6 @@ def get_book_info(xlation, book_osis):
 @scripture.route('/bible/<xlation>/passage/<passage_osis>')
 def get_passage(xlation, passage_osis):
     return render_template('scripture/passage.html', verse=bg_api.get_passage(xlation, passage_osis))
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 
