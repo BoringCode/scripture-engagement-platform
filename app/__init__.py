@@ -1,12 +1,16 @@
 from flask import Flask, render_template, g
 from flask_bootstrap import Bootstrap
+import flask.ext.login as flask_login
 from app.db import DB
-
 from datetime import datetime
 
 app = Flask(__name__)
 
 app.config.from_object('config')
+
+# Init login manager
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
 
 #Load bootstrap helpers on app
 Bootstrap(app)
