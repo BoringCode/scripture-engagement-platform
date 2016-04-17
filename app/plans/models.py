@@ -3,7 +3,7 @@ import time
 
 # find plan
 def find_plan(id):
-	return g.db.execute('SELECT * FROM plans WHERE id = :id', {"id": id}).fetchone()
+    return g.db.execute('SELECT * FROM plans WHERE id = :id', {"id": id}).fetchone()
 
 # add plan
 def add_plan_to_db(author_id, name, description):
@@ -60,5 +60,7 @@ def update_plan(name, description):
     '''
     return g.db.execute(query, (name, description))
 
-
+#this funtion temporoary gives the next plan id. Will need to confirm this temporoary id is still the next one when plan is created.
+def retrieveNextPlanId():
+    return g.db.execute('SELECT * FROM plans ORDER BY id DESC LIMIT 1')+1
 

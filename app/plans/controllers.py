@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from werkzeug.exceptions import abort
 
+#import time
+import time
+
 # Import forms
 import app.plans.forms as forms
 
@@ -41,4 +44,24 @@ def add_plan():
 			#flash("Plan '{}' already exists".format(add_plan_form.id.data))
 	return render_template('plans/show-plan.html', form=add_plan_form)
 
+@plans.route("/add_reading/", methods=["GET", "POST"])
+def add_reading_to_plan():
+	add_reading_to_plan_form = forms.AddReadingToPlan()
+	preview_plan_form = forms.PreviewPlan()
+	if add_reading_to_plan_form.validate_on_submit():
+		startTime= models.add_readings_to_plan_reading(add_reading_to_plan_form.start_time.data)
+		endTime=models.add_readings_to_plan_reading(add_reading_to_plan_form.end_time.data)
+		currentTime= time.time()
+		#convert startTime str to integer,startTimeInt
+		#convert endTime str to integer, endTimeInt
+		#if startTimeInt<currentTime
+		#	flash('start time must be a future time')
+		#if endTimeInt<currentTime
+		#   flash('end time must be a future time')
+		#if endTimeInt<=startTimeInt
+		#	flash('end time must be greater than start time')
+		#else:
+		#redisplay
+	#want to re-display preview with new reading as the next row in the preview table, n
+	return render_template('plans/show-plan.html', form=preview_plan_form)
 
