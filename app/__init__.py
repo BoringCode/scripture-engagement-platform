@@ -12,9 +12,6 @@ app.config.from_object('config')
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
-#Load bootstrap helpers on app
-Bootstrap(app)
-
 # Setup database
 @app.before_request
 def before():
@@ -24,18 +21,24 @@ def before():
 def after(exception):
 	g.db.close(exception)
 
+#Load bootstrap helpers on app
+Bootstrap(app)
+
 #Load blueprints
 from app.readings.controllers import readings as readings_module
 from app.content.controllers import content as content_module
 from app.scripture.controllers import scripture as scripture_module
 from app.posts.controllers import posts as posts_module
 from app.plans.controllers import plans as plans_module
+from app.users.controllers import users as users_module
 
 app.register_blueprint(readings_module, url_prefix="/readings")
 app.register_blueprint(posts_module, url_prefix="/posts")
 app.register_blueprint(content_module, url_prefix="/content")
 app.register_blueprint(scripture_module, url_prefix="/scripture")
 app.register_blueprint(plans_module, url_prefix="/plans")
+#Users module is located on root prefix
+app.register_blueprint(users_module)
 
 
 @app.template_filter('strftime')
