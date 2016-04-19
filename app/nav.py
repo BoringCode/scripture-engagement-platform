@@ -4,6 +4,9 @@ from flask_bootstrap.nav import BootstrapRenderer
 from flask_nav.elements import Navbar, View, Subgroup, Link, Text, Separator
 from markupsafe import escape
 
+import flask.ext.login as flask_login
+from app import login_manager
+
 # Custom navbar renderer
 class DefaultNavRenderer(BootstrapRenderer):
     def visit_Navbar(self, node):
@@ -17,6 +20,16 @@ register_renderer(app, 'defaultNav', DefaultNavRenderer)
 
 # Initialize navbar class and create two navigation areas (top and footer)
 nav = Nav()
+
+def loginButton():
+    """Dynamic login/logout button"""
+    if flask_login.current_user and flask_login.current_user.is_authenticated:
+        label = "Logout"
+        route = "users.logout"
+    else:
+        label = "Login"
+        route = "users.login"
+    return View(label, route)
 
 nav.register_element('frontend_top', Navbar(
     View('Scripture Engagement', 'index'),
@@ -34,7 +47,8 @@ nav.register_element('frontend_top', Navbar(
     Subgroup(
         'Plans',
         View('View Plans', 'plans.plan')
-    )
+    ),
+    loginButton()
 ))
 
 nav.register_element('frontend_foot', Navbar(
