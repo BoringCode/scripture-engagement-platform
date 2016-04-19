@@ -36,6 +36,10 @@ def login():
 		flash("Can't login", "danger")
 	return render_template("users/login.html", form=form)
 
+@users.route("/profile/")
+def profile():
+	return render_template("users/profile.html")
+
 @login_manager.request_loader
 def request_loader(request):
 	user_id = request.form.get("email")
