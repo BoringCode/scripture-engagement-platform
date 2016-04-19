@@ -12,6 +12,10 @@ users = Blueprint('users', __name__)
 def login():
 	return render_template("users/login.html")
 
+@users.route("/profile/")
+def profile():
+	return render_template("users/profile.html")
+
 @login_manager.request_loader
 def request_loader(request):
 	user_id = request.form.get("email")
