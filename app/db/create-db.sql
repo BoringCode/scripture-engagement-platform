@@ -8,6 +8,7 @@ CREATE TABLE reading
     creation_time INTEGER,
     text CHAR(500) NOT NULL,
     BG_passage_reference CHAR(40) NOT NULL,
+    translation CHAR(20) NOT NULL,
     CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX reading_id_uindex ON reading (id);

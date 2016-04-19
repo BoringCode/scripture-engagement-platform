@@ -10,6 +10,10 @@ import app.readings.models as models
 # Import posts forms
 import app.posts.forms as posts_forms
 
+from app.scripture.bg_api import BGAPI
+
+bg_api = BGAPI()
+
 # Create blueprint for readings routes
 readings = Blueprint('readings', __name__)
 
@@ -22,12 +26,13 @@ def all_readings():
 def show_reading(id):
 	"""Display an individual reading by ID"""
 	reading = models.find_reading(id)
+	verse = bg_api.get_passage(reading["translation"], reading["BG_passage_reference"])
 	if reading is None:
 		abort(404)
 	# Grab discussion board
 	posts = models.get_posts(id)
 	post_form = posts_forms.NewPost(originator_type="reading", originator_id=id)
-	return render_template("readings/show-reading.html", reading=reading, contents=models.all_reading_content(id), posts=posts, post_form=post_form)
+	return render_template("readings/show-reading.html", reading=reading, verse=verse, contents=models.all_reading_content(id), posts=posts, post_form=post_form)
 
 @readings.route("/add/", methods=["GET", "POST"])
 def add_reading():
