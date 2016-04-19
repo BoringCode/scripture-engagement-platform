@@ -3,6 +3,8 @@ from flask_bootstrap import Bootstrap
 import flask.ext.login as flask_login
 from app.db import DB
 from datetime import datetime
+from flask_nav import register_renderer
+from app.nav import nav, DefaultNavRenderer, initNav
 
 app = Flask(__name__)
 
@@ -12,10 +14,18 @@ app.config.from_object('config')
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
+# Init nav on app object
+nav.init_app(app)
+register_renderer(app, 'defaultNav', DefaultNavRenderer)
+
 # Setup database
 @app.before_request
 def before():
+	g.user = flask_login.current_user
 	g.db = DB()
+
+	initNav()
+
 
 @app.teardown_request
 def after(exception):
@@ -52,9 +62,3 @@ def _jinja2_filter_datetime(date, fmt=None):
 @app.route("/")
 def index():
 	return render_template("index.html")
-
-#Set up navigation
-from app.nav import nav
-nav.init_app(app)
-
-
