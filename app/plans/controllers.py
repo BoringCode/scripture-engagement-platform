@@ -50,7 +50,7 @@ def add_reading_to_plan():
 	preview_plan_form = forms.PreviewPlan()
 	if add_reading_to_plan_form.validate_on_submit():
 		startTime= models.add_readings_to_plan_reading(add_reading_to_plan_form.start_time.data)
-		endTime=models.add_readings_to_plan_reading(add_reading_to_plan_form.end_time.data)
+		endTime= models.add_readings_to_plan_reading(add_reading_to_plan_form.end_time.data)
 		currentTime= time.time()
 		#convert startTime str to integer,startTimeInt
 		#convert endTime str to integer, endTimeInt

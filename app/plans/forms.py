@@ -1,4 +1,5 @@
 from wtforms.widgets import TableWidget
+from _datetime import datetime
 from flask.ext.wtf import Form
 from wtforms import StringField, TextField, TextAreaField, SubmitField, SelectField, DateField
 from wtforms.validators import Email, Length
@@ -12,9 +13,8 @@ class AddPlan(Form):
 
 class AddReadingToPlan(Form):
     name = StringField('Plan Name', validators=[Length(min=1,max=40)])
-    #need reading_id from the dropdown here
     #need to figure out DatePickerWidget
-    start_time = DateField ('Start', format='%m/%d/%Y')
+    start_time = DateField ('Start', format='%m/%d/%Y', )
     end_time = DateField('End',format='%m/%d/%Y')
     submit = SubmitField('Add Reading to Plan')
 
