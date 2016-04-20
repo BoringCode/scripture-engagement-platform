@@ -1,26 +1,31 @@
 from flask import g
 import time
 
-# find plan
+# access individual plan
 def find_plan(id):
 	return g.db.execute('SELECT * FROM plans WHERE id = :id', {"id": id}).fetchone()
 
-# add plan
-def add_plan_to_db(author_id, name, description):
+# add new plan to database
+def add_plan_to_db( name, description):
     #Get creation time
     creation_time = time.time()
     query = '''
-        INSERT INTO plans (author_id_fk, name, creation_time, description)
-        VALUES (:author_id, :name, :creation_time, :description)
+        INSERT INTO plans ( name, creation_time, description)
+        VALUES ( :name, :creation_time, :description)
             '''
-    cursor = g.db.execute(query, {"author_id":author_id, "name":name, "creation_time":creation_time, "description":description})
+    cursor = g.db.execute(query, { "name":name, "creation_time":creation_time, "description":description})
     g.db.commit()
-    return cursor.rowcount
+    if cursor.rowcount == 1:
+        return cursor.lastrowid
+    else:
+        return None
 
+# access all plans in database
 def all_plans():
     cursor = g.db.execute('select * from plans')
     return cursor.fetchall()
 
+# add readings to plan  NEEDS WORK
 def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_ime_offset):
     query = '''
         INSERT INTO plan_reading (plans_id, reading_id, start_time_offset, end_time_offset)
@@ -29,6 +34,7 @@ def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_ime
     cursor = g.db.execute(query, {"plans_id":plan_id, "reading_id":reading_id, "start_time_offset":start_time_offset, "end_time_offset":end_ime_offset})
     g.db.commit()
     return cursor.rowcount
+#-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 #delete plans
 def delete_reading(id):

@@ -90,7 +90,7 @@ CREATE TABLE plans
     author_id_fk INTEGER,
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
-    discription CHAR(1000) NOT NULL,
+    description CHAR(1000) NOT NULL,
 
     FOREIGN KEY (author_id_fk) REFERENCES user (id)
 );

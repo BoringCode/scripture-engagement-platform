@@ -33,7 +33,10 @@ nav.register_element('frontend_top', Navbar(
     View('Read Scripture','scripture.list_translations'),
     Subgroup(
         'Plans',
-        View('View Plans', 'plans.plan')
+        View('View Plans', 'plans.plan'),
+        View('Edit Plans', 'plans.edit_plans'),
+         View('Add Plan', 'plans.add_plan')
+
     )
 ))
 

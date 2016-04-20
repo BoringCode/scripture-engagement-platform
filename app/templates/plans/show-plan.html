@@ -4,8 +4,8 @@
 
 {% block main %}
 <h2>{{plan.name}}</h2>
-
-<p><strong>Creation Time:</strong> {{plan.creation_time}}</p>
+    <p><a href="{{ url_for('plans.edit_show_plan', id=plan.id) }}">edit plan</a></p>
+    <p>Creation Time:{{plan.creation_time}}</p>
 
 <p>{{plan.description}}</p>
 
