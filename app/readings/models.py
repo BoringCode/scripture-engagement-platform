@@ -8,20 +8,29 @@ def get_posts(id):
     query = "SELECT * FROM post LEFT JOIN reading_post ON reading_post.post_id = post.id WHERE reading_post.reading_id = :id ORDER BY time DESC"
     return g.db.execute(query, {"id": id}).fetchall()
 
-def add_reading_to_db(name,text, BG_passage_reference):
+def add_reading_to_db(name,text, BG_passage_reference, translation):
     #Get creation time
     creation_time = time.time()
     query = '''
-        INSERT INTO reading (name, creation_time, text, BG_passage_reference)
-        VALUES (:name, :creation_time, :text, :BG_passage_reference)
+        INSERT INTO reading (name, creation_time, text, BG_passage_reference, translation)
+        VALUES (:name, :creation_time, :text, :BG_passage_reference, :translation)
             '''
-    cursor = g.db.execute(query, {"name":name,"creation_time":creation_time, "text":text, "BG_passage_reference":BG_passage_reference})
+    cursor = g.db.execute(query, {"name":name,"creation_time":creation_time, "text":text, "BG_passage_reference":BG_passage_reference, "translation":translation})
     g.db.commit()
     return cursor.rowcount
 
 def all_readings():
     cursor = g.db.execute('select * from reading')
     return cursor.fetchall()
+
+def add_more_passages(id, BG_passage_reference):
+    query = '''
+        INSERT INTO reading_passages (reading_id, BG_passage_reference)
+        VALUES(:id, :BG_passage_reference)
+        '''
+    cursor = g.db.execute(query, {"id":id, "BG_passage_reference":BG_passage_reference})
+    g.db.commit()
+    return cursor.rowcount
 
 #delete readings
 def delete_reading(id):

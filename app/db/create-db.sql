@@ -29,6 +29,14 @@ CREATE TABLE content
 );
 CREATE UNIQUE INDEX content_id_uindex ON content (id);
 
+-- Reading Passages table
+DROP TABLE IF EXISTS reading_passages;
+CREATE TABLE reading_passages
+(
+    reading_id INTEGER,
+    BG_passage_reference text
+);
+
 -- Reading Content table
 DROP TABLE IF EXISTS reading_content;
 CREATE TABLE reading_content
