@@ -13,8 +13,11 @@
 <ul>
     {% for reading in readings %}
         <li>
-            <a href="{{ url_for("readings.show_reading", id=reading["id"]) }}"></a>
+            <a href="{{ url_for("readings.show_reading", id=reading["id"]) }}">{{ reading["name"] }}</a>
         </li>
+    {% else %}
+        <li>No readings associated with plan</li>
+    {%  endfor %}
 </ul>
 
 {% endblock %}
