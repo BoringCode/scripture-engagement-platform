@@ -1,11 +1,11 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
 {% extends "base.html" %}
 
 {% block title %}Plan - {{plan.name}} Edit Page{% endblock %}
 
 {% block main %}
 <h2>{{plan.name}} EDIT PAGE</h2>
-    <p>Creation Time:{{plan.creation_time}}</p>
-    <p>{{plan.description}}</p>
-    <p><a href="{{ url_for('plans.show_plan', id=plan.id) }}">Submit Changes</a></p>
+    {{ wtf.quick_form(form, form_type="horizontal") }}
 
 {% endblock %}

@@ -60,11 +60,11 @@ def delete_feedback(author_id_fk, plan_id_fk, content_id_fk, reading_id_fk):
 
 # update plan
 # Should the author_id be updated too?
-def update_plan(name, description):
-    query ='''
-      UPDATE reading SET name=?, description=? WHERE id = :id
-    '''
-    return g.db.execute(query, (name, description))
+def update_plan(name, description, id):
+    query = 'UPDATE plans SET name = :name, description = :description WHERE id = :id'
+    cursor = g.db.execute(query, {'name': name, 'description': description, 'id': id})
+    g.db.commit()
+    return cursor.rowcount
 
 
 
