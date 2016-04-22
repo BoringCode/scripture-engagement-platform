@@ -6,8 +6,12 @@
 <h2>{{reading.name}}</h2>
 
 <p><strong>Passage:</strong> {{reading.BG_passage_reference}}</p>
-
-<p>{{verse.content|safe}}</p>
+    {% for verse in verses %}
+        <li>
+            {{ verses[verse].reference|safe }}
+            {{verses[verse].content|safe}}
+        </li>
+    {%  endfor %}
 
 <div class="panel panel-default">
     <div class="panel-heading">All Content</div>
@@ -29,5 +33,5 @@
 </div>
 
 {% include "posts/posts-list.html" %}
-
+<a href="{{ url_for('readings.add_passages', id=reading.id) }}">Add More Passages to This Reading</a>
 {% endblock %}
