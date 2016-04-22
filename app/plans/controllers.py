@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from werkzeug.exceptions import abort
+import time
 from datetime import datetime
 from wtforms import ValidationError
 
@@ -24,7 +25,6 @@ def show_plan(id):
 	plan = models.find_plan(id)
 	if plan is None:
 		abort(404)
-	#Do additional things if needed
 	return render_template("plans/show-plan.html", plan = models.find_plan(id))
 
 
@@ -70,7 +70,6 @@ def edit_show_plan(id):
 	if plan is None:
 		abort(404)
 
-	#Do additional things if needed
 	edit_plan_form = forms.UpdatePlan(obj=ObjectCreator(plan))
 	if edit_plan_form.validate_on_submit():  #  This function is saying whether this is a post request
 		if edit_plan_form.cancel.data:
@@ -85,41 +84,48 @@ def edit_show_plan(id):
 	return render_template("plans/edit-show-plan.html", id= plan, plan = models.find_plan(id), form=edit_plan_form)
 
 
-@plans.route("/add_reading_to_plan/", methods=["GET", "POST"])
-def add_reading_to_plan():
+@plans.route("/<id>/add-reading/", methods=["GET", "POST"])
+def add_reading_to_plan(id):
 	#remove line ater add plan form submit passes it
-    id = 1
-#	plan=models.find_plan(id)
-    add_reading_to_plan_form = forms.AddReadingToPlan()
-    add_reading_to_plan_form.set_choices()
-    if add_reading_to_plan_form.validate_on_submit():
-        startTime= models.add_readings_to_plan_reading(add_reading_to_plan_form.start_time.data)
-        endTime= models.add_readings_to_plan_reading(add_reading_to_plan_form.end_time.data)
-        reading_id= models.add_readings_to_plan_reading(add_reading_to_plan_form.reading_select.data)
-        creationTimeInt = models.add_readings_to_plan_reading(plan.creation_time.data)
-        creationTime = creationTimeInt.strftime('%m/%d/%Y')
-        #convert startTime str to integer,startTimeInt
-        startTimeInt = datetime.strptime(startTime, '%m/%d/%Y')
-        #convert endTime str to integer, endTimeInt
-        endTimeInt = datetime.strptime(endTime, '%m/%d/%Y')
-        timeValidFlag = True
-        if startTimeInt<creationTimeInt:
-            timeValidFlag = False
-            message = ('start time must be after '+ creationTime)
-            raise ValidationError(message)
-        if endTimeInt<creationTimeInt:
-            timeValidFlag = False
-            message = ('end time must be after '+ creationTime)
-            raise ValidationError(message)
-        if endTimeInt<startTimeInt:
-            timeValidFlag = False
-            raise ValidationError('start time must precede end time')
-        if timeValidFlag == True:
-            start_time_offset=startTimeInt-creationTimeInt
-            end_time_offset=endTimeInt-creationTimeInt
-            returnValue = models.add_readings_to_plan_reading(id, reading_id, start_time_offset, end_time_offset)
-            flash('Reading Added')
-            return redirect(url_for('plans.show_plan',id=returnValue))
-        else:
-            flash("Reading not added.")
-    return render_template('plans/add-reading-to-plan.html', form=add_reading_to_plan_form)
+	plan = models.find_plan(id)
+	if plan is None:
+		abort(404)
+
+	add_reading_to_plan_form = forms.AddReadingToPlan()
+	add_reading_to_plan_form.set_choices()
+	if add_reading_to_plan_form.validate_on_submit():
+		startTime= add_reading_to_plan_form.start_time.data
+		endTime= add_reading_to_plan_form.end_time.data
+		reading_id= add_reading_to_plan_form.reading_select.data
+		creationTimeInt = plan["creation_time"]
+
+		creationTime = datetime.fromtimestamp(creationTimeInt).strftime('%m/%d/%Y')
+
+		#convert startTime str to integer,startTimeInt
+		startTimeInt = time.mktime(startTime.timetuple())
+
+		#convert endTime str to integer, endTimeInt
+		endTimeInt = time.mktime(endTime.timetuple())
+
+		timeValidFlag = True
+		if startTimeInt<creationTimeInt:
+			timeValidFlag = False
+			message = ('start time must be after '+ creationTime)
+			raise ValidationError(message)
+		if endTimeInt<creationTimeInt:
+			timeValidFlag = False
+			message = ('end time must be after '+ creationTime)
+			raise ValidationError(message)
+		if endTimeInt<startTimeInt:
+			timeValidFlag = False
+			raise ValidationError('start time must precede end time')
+		if timeValidFlag == True:
+			start_time_offset=startTimeInt-creationTimeInt
+			end_time_offset=endTimeInt-creationTimeInt
+			returnValue = models.add_readings_to_plan_reading(id, reading_id, startTimeInt, endTimeInt)
+			if returnValue is not None:
+				flash('Reading Added')
+				return redirect(url_for('plans.show_plan', id=id))
+		else:
+			flash("Reading not added.")
+	return render_template('plans/add-reading-to-plan.html', form=add_reading_to_plan_form, plan = models.find_plan(id))

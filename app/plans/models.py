@@ -25,13 +25,13 @@ def all_plans():
     cursor = g.db.execute('select * from plans')
     return cursor.fetchall()
 
-# add readings to plan  NEEDS WORK
-def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_ime_offset):
+# add readings to plan
+def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_time_offset):
     query = '''
         INSERT INTO plan_reading (plans_id, reading_id, start_time_offset, end_time_offset)
         VALUES (:plan_id, :reading_id, :start_time_offset, :end_time_offset)
             '''
-    cursor = g.db.execute(query, {"plans_id":plan_id, "reading_id":reading_id, "start_time_offset":start_time_offset, "end_time_offset":end_ime_offset})
+    cursor = g.db.execute(query, {"plan_id":plan_id, "reading_id":reading_id, "start_time_offset":start_time_offset, "end_time_offset":end_time_offset})
     g.db.commit()
     return cursor.rowcount
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
