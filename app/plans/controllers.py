@@ -29,7 +29,8 @@ def show_plan(id):
 	if plan is None:
 		abort(404)
 	#Do additional things if needed
-	return render_template("plans/show-plan.html", plan = models.find_plan(id))
+    readings = models.find_plan_reading(id)
+    return render_template("plans/show-plan.html", plan = models.find_plan(id), readings = readings)
 
 # Add new plan
 @plans.route("/add/", methods=["GET", "POST"])

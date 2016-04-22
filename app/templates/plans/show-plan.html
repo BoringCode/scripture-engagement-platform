@@ -9,4 +9,11 @@
 
 <p>{{plan.description}}</p>
 
+<ul>
+    {% for reading in readings %}
+        <li>
+            <a href="{{ url_for("readings.show_reading", id=reading["id"]) }}"></a>
+        </li>
+</ul>
+
 {% endblock %}

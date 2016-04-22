@@ -62,3 +62,4 @@ def all_reading_content(reading_id):
 
     cursor = g.db.execute(query, {"reading_id":reading_id})
     return cursor.fetchall()
+
