@@ -66,11 +66,11 @@ def delete_plan_reading(plan_id, reading_id):
     return True
 
 #update reading
-def update_reading(id, name, text, reference):
+def update_reading(id, name, text, translation):
     query ='''
-      UPDATE reading SET name=:name, text=:text, BG_passage_reference=:reference WHERE id = :id
+      UPDATE reading SET name=:name, text=:text, translation=:translation WHERE id = :id
     '''
-    return g.db.execute(query, {"id": id, "name": name, "text": text, "reference": reference}).rowcount
+    return g.db.execute(query, {"id": id, "name": name, "text": text, "translation": translation}).rowcount
 
 #reading content
 def all_reading_content(reading_id):
