@@ -25,13 +25,13 @@ def all_plans():
     cursor = g.db.execute('select * from plans')
     return cursor.fetchall()
 
-# add readings to plan  NEEDS WORK
-def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_ime_offset):
+# add readings to plan
+def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_time_offset):
     query = '''
         INSERT INTO plan_reading (plans_id, reading_id, start_time_offset, end_time_offset)
         VALUES (:plan_id, :reading_id, :start_time_offset, :end_time_offset)
             '''
-    cursor = g.db.execute(query, {"plans_id":plan_id, "reading_id":reading_id, "start_time_offset":start_time_offset, "end_time_offset":end_ime_offset})
+    cursor = g.db.execute(query, {"plan_id":plan_id, "reading_id":reading_id, "start_time_offset":start_time_offset, "end_time_offset":end_time_offset})
     g.db.commit()
     return cursor.rowcount
 
@@ -66,11 +66,11 @@ def delete_feedback(author_id_fk, plan_id_fk, content_id_fk, reading_id_fk):
 
 # update plan
 # Should the author_id be updated too?
-def update_plan(name, description):
-    query ='''
-      UPDATE reading SET name=?, description=? WHERE id = :id
-    '''
-    return g.db.execute(query, (name, description))
+def update_plan(name, description, id):
+    query = 'UPDATE plans SET name = :name, description = :description WHERE id = :id'
+    cursor = g.db.execute(query, {'name': name, 'description': description, 'id': id})
+    g.db.commit()
+    return cursor.rowcount
 
 #this funtion temporoary gives the next plan id. Will need to confirm this temporoary id is still the next one when plan is created.
 def retrieveNextPlanId():
