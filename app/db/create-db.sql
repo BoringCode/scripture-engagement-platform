@@ -99,7 +99,6 @@ CREATE TABLE plans
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
     description CHAR(1000) NOT NULL,
-
     FOREIGN KEY (author_id_fk) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX plans_id_uindex ON plans (id);

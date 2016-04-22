@@ -6,7 +6,7 @@
 <h2>{{plan.name}}</h2>
     <p><a href="{{ url_for('plans.edit_show_plan', id=plan.id) }}">edit plan</a>
     <p><a href="{{ url_for('plans.add_reading_to_plan', id=plan.id) }}">Add Readings</a></p>
-    <p>Creation Time:{{plan.creation_time}}</p>
+    <p>Creation Time: {{plan.creation_time|strftime}}</p>
 
 <p>{{plan.description}}</p>
 
