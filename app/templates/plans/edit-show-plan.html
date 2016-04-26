@@ -1,9 +1,11 @@
 {% import "bootstrap/wtf.html" as wtf %}
+
 {% extends "base.html" %}
 
+{% block title %}Plan - {{plan.name}} Edit Page{% endblock %}
+
 {% block main %}
-<div class="col-md-12">
-    <h2>Add Plan</h2>
+<h2>{{plan.name}} EDIT PAGE</h2>
     {{ wtf.quick_form(form, form_type="horizontal") }}
-</div>
+
 {% endblock %}

@@ -9,3 +9,4 @@ DELETE FROM user_group;
 DELETE FROM group_invitation;
 DELETE FROM post;
 DELETE FROM reading_post;
+DELETE FROM plans;

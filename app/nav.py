@@ -14,7 +14,6 @@ class DefaultNavRenderer(BootstrapRenderer):
 
         return nav_tag
 
-
 def initNav():
     """Create navigation elements after application context has been created"""
     nav.register_element('frontend_top', Navbar(

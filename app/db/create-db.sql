@@ -7,7 +7,7 @@ CREATE TABLE reading
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
     text CHAR(500) NOT NULL,
-    BG_passage_reference CHAR(40) NOT NULL,
+    translation CHAR(20) NOT NULL,
     CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX reading_id_uindex ON reading (id);
@@ -27,6 +27,14 @@ CREATE TABLE content
     CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX content_id_uindex ON content (id);
+
+-- Reading Passages table
+DROP TABLE IF EXISTS reading_passages;
+CREATE TABLE reading_passages
+(
+    reading_id INTEGER,
+    BG_passage_reference text
+);
 
 -- Reading Content table
 DROP TABLE IF EXISTS reading_content;
@@ -90,8 +98,7 @@ CREATE TABLE plans
     author_id_fk INTEGER,
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
-    discription CHAR(1000) NOT NULL,
-
+    description CHAR(1000) NOT NULL,
     FOREIGN KEY (author_id_fk) REFERENCES user (id)
 );
 CREATE UNIQUE INDEX plans_id_uindex ON plans (id);
