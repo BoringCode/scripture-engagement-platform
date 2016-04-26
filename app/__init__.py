@@ -21,8 +21,9 @@ register_renderer(app, 'defaultNav', DefaultNavRenderer)
 # Setup database
 @app.before_request
 def before():
-	g.user = flask_login.current_user
 	g.db = DB()
+
+	g.user = flask_login.current_user
 
 	initNav()
 

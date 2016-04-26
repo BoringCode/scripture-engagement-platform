@@ -58,19 +58,16 @@ CREATE UNIQUE INDEX content_type_id_uindex ON content_type (id);
 DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username CHAR(100) NOT NULL,
+    email_address VARCHAR(320) PRIMARY KEY NOT NULL,
     password CHAR(100) NOT NULL,
-    email_address CHAR(100) NOT NULL,
     first_name CHAR(100) NOT NULL,
     last_name CHAR(100) NOT NULL,
     active BOOLEAN DEFAULT TRUE
 );
-CREATE UNIQUE INDEX user_id_uindex ON user (id);
 
 -- Group table
-DROP TABLE IF EXISTS user_group;
-CREATE TABLE user_group
+DROP TABLE IF EXISTS groups;
+CREATE TABLE groups
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(100) NOT NULL,
@@ -78,7 +75,7 @@ CREATE TABLE user_group
     creation_time DATE,
     description CHAR(500) NOT NULL
 );
-CREATE UNIQUE INDEX group_id_uindex ON 'user_group' (id);
+CREATE UNIQUE INDEX group_id_uindex ON 'groups' (id);
 
 --Group Invitation table
 DROP TABLE IF EXISTS group_invitation;
