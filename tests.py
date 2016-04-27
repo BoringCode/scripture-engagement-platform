@@ -1,6 +1,8 @@
 import unittest
 import tempfile
 import os
+import time
+from unittest.mock import patch
 
 from flask import g, url_for
 
@@ -12,7 +14,41 @@ from app.db import DB
 import app.readings.models as readings_model
 import app.content.models as content_model
 import app.posts.models as posts_model
+import app.users.models as users_model
 
+class ProxyUser(users_model.User):
+    def __init__(self, user_id = 1, password = False, reload_obj = False):
+        """Proxy user for testing model functionality that requires a login"""
+        self._user_id = user_id
+
+        self._user = {
+            "active": True,
+            "first_name": "Fake",
+            "last_name": "User",
+            "id": self._user_id,
+            "email_address": "user@example.com",
+            "password": "fake",
+            "email": "user@example.com"
+        }
+
+        # Add to database
+        users_model.register(self._user)
+
+        self._is_active = self._user["active"]
+        self._is_authenticated = True
+
+    @staticmethod
+    def exists(user_id):
+        return True
+
+    def get(self):
+        pass
+
+    def check_password(self, password):
+        return False
+
+    def set_password(self, password):
+        return False
 
 class FlaskTestCase(unittest.TestCase):
     # This is a helper class that sets up the proper Flask execution context
@@ -21,6 +57,13 @@ class FlaskTestCase(unittest.TestCase):
         # Allow exceptions (if any) to propagate to the test client.
         app.testing = True
 
+        # Don't check for cross site request forgery tokens
+        app.config['WTF_CSRF_ENABLED'] = False
+        app.config['CSRF_ENABLED'] = False
+
+        # Set database file location
+        app.config["DATABASE"] = self.file_name
+
         # Create a test client.
         self.client = app.test_client(use_cookies=True)
 
@@ -28,9 +71,36 @@ class FlaskTestCase(unittest.TestCase):
         self.app_context = app.test_request_context()
         self.app_context.push()
 
+        g.db = DB()
+        g.db.executeScript('app/db/create-db.sql')
+
     def tearDown(self):
         # Clean up the application context.
+        g.db.executeScript('app/db/clear-db.sql')
+        g.db.close(False)
         self.app_context.pop()
+
+    # This method is invoked once before all the tests in this test case.
+    @classmethod
+    def setUpClass(cls):
+        """So that we don't overwrite application data, create a temporary database file."""
+        (file_descriptor, cls.file_name) = tempfile.mkstemp()
+        os.close(file_descriptor)
+
+    # This method is invoked once after all the tests in this test case.
+    @classmethod
+    def tearDownClass(cls):
+        """Remove the temporary database file."""
+        os.unlink(cls.file_name)
+
+    @patch("app.before")
+    def before_request():
+        # Our setup function already handled the before request functions
+        initNav()
+
+    @patch("app.after")
+    def after_request(exception):
+        pass
 
 class ApplicationTestCase(FlaskTestCase):
     """Test the basic behavior of page routing and display"""
@@ -46,42 +116,18 @@ class ApplicationTestCase(FlaskTestCase):
         self.assertTrue('All Readings' in str(resp.data))
 
 
-#Base class for testing models
-class ModelTestCase(FlaskTestCase):
-    """Test database access and update functions."""
-
-    # This method is invoked once before all the tests in this test case.
-    @classmethod
-    def setUpClass(cls):
-        """So that we don't overwrite application data, create a temporary database file."""
-        (file_descriptor, cls.file_name) = tempfile.mkstemp()
-        os.close(file_descriptor)
-
-    # This method is invoked once after all the tests in this test case.
-    @classmethod
-    def tearDownClass(cls):
-        """Remove the temporary database file."""
-        os.unlink(cls.file_name)
-
-    def setUp(self):
-        """Open the database connection and create all the tables."""
-        super(ModelTestCase, self).setUp()
-        g.db = DB(db_path = self.file_name)
-        g.db.executeScript('app/db/create-db.sql')
-
-    def tearDown(self):
-        """Clear all tables in the database and close the connection."""
-        g.db.executeScript('app/db/clear-db.sql')
-        g.db.close(False)
-        super(ModelTestCase, self).tearDown()
-
-class ReadingsTestCase(ModelTestCase):
+class ReadingsTestCase(FlaskTestCase):
 
     example_reading = {
         "name": "Some reading",
         "description": "A description",
         "translation": "NKJV"
     }
+
+    def setUp(self):
+        super(ReadingsTestCase, self).setUp()
+        # Use proxy user for these tests
+        g.user = ProxyUser()
 
     def test_create_reading(self):
         """Check that readings can be created"""
@@ -113,7 +159,7 @@ class ReadingsTestCase(ModelTestCase):
         self.assertEqual(test_reading["text"], "Some words in the description")
         self.assertEqual(test_reading["translation"], "KJV")
 
-class PostsTestCase(ModelTestCase):
+class PostsTestCase(FlaskTestCase):
 
     example_reading = {
         "name": "Some reading",
@@ -127,6 +173,11 @@ class PostsTestCase(ModelTestCase):
         "originator_type": "reading",
         "originator_id": 1,
     }
+
+    def setUp(self):
+        super(PostsTestCase, self).setUp()
+        # Use proxy user for these tests
+        g.user = ProxyUser()
 
     def test_create_reading_post(self):
         """Test creating a discussion post on a reading"""
@@ -143,10 +194,50 @@ class PostsTestCase(ModelTestCase):
 
         # Make sure created post is the same as the initial data
         self.assertEqual(posts[0]["message"], self.example_post["message"])
-        self.assertEqual(posts[0]["user_id_fk"], self.example_post["user"])
+        self.assertEqual(posts[0]["author"].user_id, self.example_post["user"])
+
+class UsersTestCase(FlaskTestCase):
+
+    example_user = {
+        "email": "user@example.com",
+        "first_name": "Fake",
+        "last_name": "User",
+        "password": "fakepassword123!"
+    }
+
+    def login(self, username, password):
+        with self.app_context:
+            return self.client.post('/login/', data=dict(
+                email=username,
+                password=password
+            ), follow_redirects=True)
+
+    def logout(self):
+        with self.app_context:
+            return self.client.get('/logout/', follow_redirects=True)
+
+    def test_register_user(self):
+        """Ensure user model correctly registers the user"""
+        user = users_model.register(self.example_user)
+
+        self.assertTrue(user is not False, "User can't be created")
+
+        self.assertEqual(user.first_name, self.example_user["first_name"], "Created user doesn't have correct first name")
+        self.assertEqual(user.last_name, self.example_user["last_name"], "Created user doesn't have correct last name")
+        self.assertEqual(user.username, self.example_user["email"], "Created user doesn't have correct email")
+
+        self.assertTrue(user.check_password(self.example_user["password"]), "Created user doesn't have correct password")
 
 
+    def test_login__logout_user(self):
+        """Check that registered user can login and logout"""
+        user = users_model.register(self.example_user)
 
+        login = self.login(self.example_user["email"], self.example_user["password"])
+        self.assertTrue(("Welcome back " + self.example_user["first_name"]) in str(login.data), "User can't login")
+
+        logout = self.logout()
+        self.assertTrue("Logged out" in str(logout.data), "User can't logout")
 
 
 

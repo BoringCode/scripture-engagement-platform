@@ -63,11 +63,16 @@ def register():
 	form = forms.Register()
 
 	if form.validate_on_submit():
-		user = register_user(form)
+		user = register_user({
+			"email": form.email.data,
+			"first_name": form.first_name.data,
+			"last_name": form.last_name.data,
+			"password": form.password.data
+		})
 		if user is not False and user.is_authenticated:
 			flask_login.login_user(user)
 
-			flash("Welcome to the site " + user.first_name, "success")
+			flash("Welcome back " + user.first_name, "success")
 
 			next = flask.request.args.get("next")
 			if not next_is_valid(next):

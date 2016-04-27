@@ -1,5 +1,7 @@
 DEBUG = True
 
+DATABASE = "app/database.db"
+
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 

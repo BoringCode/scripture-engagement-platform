@@ -3,19 +3,19 @@ from flask import g, flash
 import time
 from werkzeug.security import generate_password_hash, check_password_hash
 
-def register(form):
+def register(data):
 	"""Create user from form input"""
 
-	email = form.email.data
+	email = data["email"]
 
 	if User.exists(email):
 		flash("User already exists, try logging in")
 		return False
 
-	first_name = form.first_name.data
-	last_name = form.last_name.data
+	first_name = data["first_name"]
+	last_name = data["last_name"]
 	# We don't store the user's password (EVER)
-	pw_hash = generate_password_hash(form.password.data)
+	pw_hash = generate_password_hash(data["password"])
 	creation_time = time.time()
 
 	query = '''
@@ -28,7 +28,7 @@ def register(form):
 
 	# Check that the query worked, then return a new user object
 	if cursor.rowcount > 0:
-		return User(form.email.data, form.password.data)
+		return User(data["email"], reload_obj = True)
 	else:
 		return False
 
