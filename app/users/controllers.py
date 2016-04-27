@@ -3,6 +3,7 @@ from functools import wraps
 from flask import Blueprint, render_template, flash, redirect, url_for, g
 from werkzeug.exceptions import abort
 import flask.ext.login as flask_login
+from urllib.parse import urlparse, urljoin
 
 from app import login_manager
 
@@ -13,6 +14,16 @@ from app.users.models import User, DBUser, register as register_user
 import app.users.forms as forms
 
 users = Blueprint('users', __name__)
+
+def is_logged_in():
+	return g.user is not None and g.user.is_authenticated
+
+def next_is_valid(next):
+	"""Verify that the user can navigate to this URL"""
+	# Right now verify that the URL is safe
+	ref_url = urlparse(flask.request.host_url)
+	test_url = urlparse(urljoin(flask.request.host_url, next))
+	return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 def logged_out_only(f):
 	@wraps(f)
@@ -34,9 +45,17 @@ def login():
 
 			flash("Welcome back " + user.first_name, "success")
 
-			return flask.redirect(flask.url_for('index'))
+			next = flask.request.args.get("next")
+			if not next_is_valid(next):
+				return flask.abort(400)
+
+			return flask.redirect(next or flask.url_for('index'))
 		flash("Cannot login with given information", "danger")
 	return render_template("users/login.html", form=form)
+
+# Set options for login required
+login_manager.login_view = "users.login"
+login_manager.login_message = "Please login"
 
 @users.route("/register/", methods=["GET", "POST"])
 @logged_out_only
@@ -50,7 +69,11 @@ def register():
 
 			flash("Welcome to the site " + user.first_name, "success")
 
-			return flask.redirect(flask.url_for('index'))
+			next = flask.request.args.get("next")
+			if not next_is_valid(next):
+				return flask.abort(400)
+
+			return flask.redirect(next or flask.url_for('index'))
 		flash("Can't create user", "danger")
 
 	return render_template("users/register.html", form=form)

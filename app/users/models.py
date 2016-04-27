@@ -57,6 +57,11 @@ class DBUser():
 	def user_id(self):
 		return self._user_id
 
+	@property
+	def username(self):
+	    return self._user["email_address"]
+	
+
 	def get(self):
 		if hasattr(self, '_user') and self._user is not None: return
 		self._user = g.db.execute('SELECT * FROM user WHERE id = :id', {"id": self._user_id}).fetchone()
@@ -91,8 +96,12 @@ class User(flask_login.UserMixin):
 	    return self._user["last_name"]
 
 	@property
-	def user_index(self):
+	def user_id(self):
 	    return self._user["id"]
+
+	@property
+	def username(self):
+		return self._user["email_address"]
 		
 	@property
 	def is_active(self):

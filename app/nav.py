@@ -14,39 +14,57 @@ class DefaultNavRenderer(BootstrapRenderer):
 
         return nav_tag
 
+def is_logged_in():
+    return g.user is not None and g.user.is_authenticated
+
 def initNav():
     """Create navigation elements after application context has been created"""
-    nav.register_element('frontend_top', Navbar(
-        View('Scripture Engagement', 'index'),
-        View('Home', 'index'),
-        Subgroup(
-            'Readings',
-            View('View Readings', 'readings.all_readings'),
-            View('Add Reading', 'readings.add_reading'),
-        ),
-        Subgroup(
-            'Content',
-            View('Add Content', 'content.add_content'),
-        ),
-        View('Read Scripture','scripture.list_translations'),
-        Subgroup(
-            'Plans',
-            View('View Plans', 'plans.plan')
-        ),
-        loginButton()
-    ))
+    nav.register_element('frontend_top', constructNavbar())
 
     nav.register_element('frontend_foot', Navbar(
         Text("Scripture Engagement ISD Team Orange 2016"),
     ))
 
+def constructNavbar():
+    elements = [
+        View("Scripture Engagement", "index"),
+        View("Home", "index"),
+        readings()
+    ]
+
+    if is_logged_in():
+        elements.append(Subgroup(
+            'Content',
+            View('Add Content', 'content.add_content'),
+        ))
+
+    elements.append(View("Read Scripture", "scripture.list_translations"))
+
+    elements.append(Subgroup(
+        'Plans',
+        View('View Plans', 'plans.plan')
+    ))
+
+    elements.append(loginButton())
+
+    return Navbar(*elements)
+
+def readings():
+    elements = ["Readings"]
+
+    elements.append(View("View Readings", "readings.all_readings"))
+
+    if is_logged_in():
+        elements.append(View("Add Reading", "readings.add_reading"))
+
+    return Subgroup(*elements)
 
 def loginButton():
     """Dynamic login/logout button"""
-    if g.user and g.user.is_authenticated:
+    if is_logged_in():
         return Subgroup(
             g.user.first_name,
-            View("Profile", "users.profile", user_id=g.user.user_index),
+            View("Profile", "users.profile", user_id=g.user.user_id),
             View("Logout", "users.logout")
         )
     else:
