@@ -30,7 +30,8 @@ def before():
 
 @app.teardown_request
 def after(exception):
-	g.db.close(exception)
+	if hasattr(g, 'db'):
+		g.db.close(exception)
 
 #Load bootstrap helpers on app
 Bootstrap(app)
