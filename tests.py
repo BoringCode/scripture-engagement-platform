@@ -206,15 +206,13 @@ class UsersTestCase(FlaskTestCase):
     }
 
     def login(self, username, password):
-        with self.app_context:
-            return self.client.post('/login/', data=dict(
-                email=username,
-                password=password
-            ), follow_redirects=True)
+        return self.client.post('/login/', data=dict(
+            email=username,
+            password=password
+        ), follow_redirects=True)
 
     def logout(self):
-        with self.app_context:
-            return self.client.get('/logout/', follow_redirects=True)
+        return self.client.get('/logout/', follow_redirects=True)
 
     def test_register_user(self):
         """Ensure user model correctly registers the user"""
