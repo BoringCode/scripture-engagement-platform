@@ -6,7 +6,7 @@ import flask.ext.login as flask_login
 from app import login_manager
 
 # Import models
-from app.users.models import User, register as register_user
+from app.users.models import User, DBUser, register as register_user
 
 # Import forms
 import app.users.forms as forms
@@ -41,6 +41,9 @@ def login():
 def register():
 	form = forms.Register()
 
+	if g.user is not None and g.user.is_authenticated:
+		return redirect(url_for('index'))
+
 	if form.validate_on_submit():
 		user = register_user(form)
 		if user is not False and user.is_authenticated:
@@ -68,9 +71,14 @@ def logout():
 
 
 
-@users.route("/profile/")
-def profile():
-	return render_template("users/profile.html")
+@users.route("/profile/<user_id>/")
+@flask_login.login_required
+def profile(user_id):
+	try: 
+		user = DBUser(user_id)
+		return render_template("users/profile.html", user=user)
+	except:
+		return flask.abort(404)
 
 """
 @login_manager.request_loader

@@ -4,4 +4,5 @@
 {% block main %}
 	<h2>Login</h2>
 	{{ wtf.quick_form(form, form_type="horizontal") }}
+	<p>Don't have an account? <a href="{{ url_for('users.register') }}">Register today!</a></p>
 {% endblock %}

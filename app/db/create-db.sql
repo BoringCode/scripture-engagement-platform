@@ -58,11 +58,14 @@ CREATE UNIQUE INDEX content_type_id_uindex ON content_type (id);
 DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
-    email_address VARCHAR(320) PRIMARY KEY NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email_address VARCHAR(320) NOT NULL,
     password CHAR(100) NOT NULL,
     first_name CHAR(100) NOT NULL,
     last_name CHAR(100) NOT NULL,
-    active BOOLEAN DEFAULT TRUE
+    active BOOLEAN DEFAULT TRUE,
+    creation_time INTEGER NOT NULL,
+    UNIQUE (id, email_address)
 );
 
 -- Group table

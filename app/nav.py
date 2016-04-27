@@ -44,9 +44,12 @@ def initNav():
 def loginButton():
     """Dynamic login/logout button"""
     if g.user and g.user.is_authenticated:
-        label = "Logout"
-        route = "users.logout"
+        return Subgroup(
+            g.user.first_name,
+            View("Profile", "users.profile", user_id=g.user.user_index),
+            View("Logout", "users.logout")
+        )
     else:
         label = "Login"
         route = "users.login"
-    return View(label, route)
+        return View(label, route)
