@@ -1,7 +1,7 @@
 import flask.ext.login as flask_login
 from flask import g, flash
 import time
-from werkzeug.security import generate_password_hash, check_password_hash
+from app.security import pwd_context
 
 def register(data):
 	"""Create user from form input"""
@@ -15,7 +15,7 @@ def register(data):
 	first_name = data["first_name"]
 	last_name = data["last_name"]
 	# We don't store the user's password (EVER)
-	pw_hash = generate_password_hash(data["password"])
+	pw_hash = pwd_context.encrypt(data["password"])
 	creation_time = time.time()
 
 	query = '''
@@ -127,11 +127,11 @@ class User(flask_login.UserMixin):
 	def check_password(self, password):
 		"""Verify that entered password generates a hash equal to the hash stored in the database"""
 		self.get()
-		return check_password_hash(self._user["password"], password)
+		return pwd_context.verify(password, self._user["password"])
 
 	def set_password(self, password):
 		"""Update user's password"""
-		new_password_hash = generate_password_hash(password)
+		new_password_hash = pwd_context.encrypt(password)
 		query = 'UPDATE user SET password=:password WHERE email_address = :id'
 		return g.db.execute(query, {"password": new_password_hash, "id": self._user_id}).rowcount == 1
 	
