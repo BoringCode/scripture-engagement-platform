@@ -180,7 +180,7 @@ class PostsTestCase(FlaskTestCase):
     example_reading = {
         "name": "Some reading",
         "description": "A description",
-        "passage": "John 3:16"
+        "translation": "NKJV"
     }
 
     example_post = {
@@ -197,7 +197,7 @@ class PostsTestCase(FlaskTestCase):
 
     def test_create_reading_post(self):
         """Test creating a discussion post on a reading"""
-        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["passage"])
+        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
         self.assertEqual(row_count, 1)
 
         # Create post on newly created reading
