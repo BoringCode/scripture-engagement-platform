@@ -121,8 +121,11 @@ class ReadingsTestCase(FlaskTestCase):
     example_reading = {
         "name": "Some reading",
         "description": "A description",
-        "translation": "NKJV"
+        "translation": "NKJV",
+        "passage": "Gen 1.1"
     }
+
+    expected_passage = "In the beginning God created the heavens and the earth."
 
     def setUp(self):
         super(ReadingsTestCase, self).setUp()
@@ -158,6 +161,19 @@ class ReadingsTestCase(FlaskTestCase):
         self.assertEqual(test_reading["name"], "Updated reading")
         self.assertEqual(test_reading["text"], "Some words in the description")
         self.assertEqual(test_reading["translation"], "KJV")
+
+    def test_add_passage(self):
+        """Ensure that a passage can be added to a reading"""
+        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
+        self.assertEqual(row_count, 1, "Can't add reading to DB")
+
+        row_count = readings_model.add_more_passages(1, self.example_reading["passage"])
+        self.assertEqual(row_count, 1, "Passage was not added to reading")
+
+        passages = readings_model.find_reading_passages(1, self.example_reading["translation"])
+        self.assertEqual(len(passages), 1, "Reading should have 1 passage associated with it")
+
+        self.assertTrue(self.expected_passage in passages[self.example_reading["passage"]]["content"], "Genesis 1:1 did not return expected value from API")
 
 class PostsTestCase(FlaskTestCase):
 

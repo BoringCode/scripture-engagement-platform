@@ -13,7 +13,6 @@ def find_reading_passages(id,translation):
     passages = g.db.execute('SELECT * FROM reading_passages WHERE reading_id = :id', {"id":id}).fetchall()
     verses = {}
     for entry in passages:
-        #print(entry)
         verses[entry["BG_passage_reference"]] = bg_api.get_passage(translation, entry["BG_passage_reference"])
     return verses
 
