@@ -35,7 +35,14 @@ nav.register_element('frontend_top', Navbar(
         'Plans',
         View('View Plans', 'plans.plan'),
         View('Edit Plans', 'plans.edit_plans'),
-         View('Add Plan', 'plans.add_plan')
+        View('Add Plan', 'plans.add_plan')
+
+    ),
+    Subgroup(
+        'Groups',
+        View('View Groups', 'groups.group'),
+        View('Edit Group', 'groups.edit_group'),
+        View('Add Group', 'groups.add_group')
 
     )
 ))

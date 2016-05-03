@@ -1,0 +1,9 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+
+{% block main %}
+<div class="col-md-12">
+    <h2>Add Group</h2>
+    {{ wtf.quick_form(form, form_type="horizontal") }}
+</div>
+{% endblock %}
