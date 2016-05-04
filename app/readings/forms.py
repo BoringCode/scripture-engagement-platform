@@ -16,12 +16,21 @@ class AddPassage(Form):
 	submit = SubmitField('Add Passage to Reading')
 
 class AddContentToReading(Form):
-    content_select = SelectField('Select Content')
-    submit = SubmitField('Add Content to Reading')
+	content_select = SelectField('Select Content')
+	submit = SubmitField('Add Content to Reading')
 
-    def set_choices(self):
-        allContent=all_content()
-        content = [[0,'select...']]
-        for content in allContent:
-            content.append([str(content["id"]),content["name"]])
-        self.content_select.choices = content
+	def set_choices(self):
+		allContent=all_content()
+		content = [[0,'select...']]
+		for content in allContent:
+			content.append([str(content["id"]),content["name"]])
+			self.content_select.choices = content
+
+
+class UpdateReading(Form):
+	name = StringField('Reading Name', validators=[Length(min=1,max=40)])
+	text = TextAreaField('Description of Reading', validators=[Length(min=1, max=500)])
+	translation = SelectField('Translation', choices=[('KJV', 'KJV'), ('NKJV', 'NKJV')])
+	submit = SubmitField('Update Reading')
+	delete = SubmitField('Delete Reading')
+	cancel = SubmitField('Cancel')

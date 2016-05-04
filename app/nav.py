@@ -60,7 +60,8 @@ def readings():
     elements.append(View("View Readings", "readings.all_readings"))
 
     if is_logged_in():
-        elements.append(View("Add Reading", "readings.add_reading"))
+        elements.append(View("Add Reading", "readings.add_reading",))
+        elements.append(View("Edit Reading", "readings.edit_readings",))
 
     return Subgroup(*elements)
 

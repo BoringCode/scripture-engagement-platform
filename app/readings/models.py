@@ -75,13 +75,6 @@ def delete_plan_reading(plan_id, reading_id):
     #return g.db.execute('DELETE FROM plan_reading WHERE reading_id = :reading_id OR plan_id = :plan_id', {"reading_id": reading_id, "plan_id": plan_id}).fetchall()
     return True
 
-#update reading
-def update_reading(id, name, text, translation):
-    query ='''
-      UPDATE reading SET name=:name, text=:text, translation=:translation WHERE id = :id
-    '''
-    return g.db.execute(query, {"id": id, "name": name, "text": text, "translation": translation}).rowcount
-
 #reading content
 def all_reading_content(reading_id):
     query = '''
@@ -94,3 +87,14 @@ def all_reading_content(reading_id):
     cursor = g.db.execute(query, {"reading_id":reading_id})
     return cursor.fetchall()
 
+#update reading
+def update_reading(name, text, translation, id):
+    query = 'UPDATE reading SET name = :name, text = :text, translation = :translation WHERE id = :id'
+    cursor = g.db.execute(query, {'name': name, 'text': text, 'translation': translation, 'id': id})
+    g.db.commit()
+    return cursor.rowcount
+
+def delete_reading(id):
+    g.db.execute('DELETE FROM reading WHERE id = :id', {'id': id}).fetchall()
+    g.db.commit()
+    return

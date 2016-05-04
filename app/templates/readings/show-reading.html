@@ -4,6 +4,7 @@
 
 {% block main %}
 <h2>{{reading.name}}</h2>
+    <a href="{{ url_for('readings.edit_show_reading', id=reading.id) }}">edit reading</a>
 
 {% for verse in verses %}
     <li>
