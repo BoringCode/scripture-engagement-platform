@@ -42,13 +42,6 @@ def find_plan_reading(plan_id):
     return g.db.execute(query, {"plan_id":plan_id}).fetchall()
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-#delete plans
-def delete_reading(id):
-    delete_subscription(id, False)
-    delete_group_subscription(id, False)
-    delete_plan_reading(id, False)
-    delete_feedback(False, id, False, False)
-
 def delete_subscription(plan_id, user_id):
     return g.db.execute('DELETE FROM subscription WHERE plans_id = :plan_id OR user_id = :user_id', {"plan_id": plan_id, "user_id": user_id}).fetchall()
 
@@ -76,3 +69,7 @@ def update_plan(name, description, id):
 def retrieveNextPlanId():
     return g.db.execute('SELECT * FROM plans ORDER BY id DESC LIMIT 1')+1
 
+def delete_plan(id):
+    g.db.execute('DELETE FROM plans WHERE id = :id', {'id': id}).fetchall()
+    g.db.commit()
+    return

@@ -84,7 +84,54 @@ def add_passages(id):
 			flash('Somethings terribly wrong.')
 	return render_template('readings/add-passage.html', form=add_passages_form)
 
+#---------------------------------------------------------------------------------------------------
 
+#@readings.route("/<id>/add-content/", methods=["GET", "POST"])
+#@flask_login.login_required
+#def add_content_to_reading(id):
+#	#remove line ater add plan form submit passes it
+#	reading = models.find_reading(id)
+#	if plan is None:
+#		abort(404)
+#
+#	add_content_to_reading_form = forms.AddContentToReading()
+#	add_content_to_reading_form.set_choices() #######################################################
+#	if add_reading_to_plan_form.validate_on_submit():
+#		startTime= add_reading_to_plan_form.start_time.data
+#		endTime= add_reading_to_plan_form.end_time.data
+#		reading_id= add_reading_to_plan_form.reading_select.data
+#		creationTimeInt = plan["creation_time"]
+#
+#		creationTime = datetime.fromtimestamp(creationTimeInt).strftime('%m/%d/%Y')
+#
+#		#convert startTime str to integer,startTimeInt
+#		startTimeInt = time.mktime(startTime.timetuple())
+#
+#		#convert endTime str to integer, endTimeInt
+#		endTimeInt = time.mktime(endTime.timetuple())
+#
+#		timeValidFlag = True
+#		if startTimeInt<creationTimeInt:
+#			timeValidFlag = False
+#			message = ('start time must be after '+ creationTime)
+#			raise ValidationError(message)
+#		if endTimeInt<creationTimeInt:
+#			timeValidFlag = False
+#			message = ('end time must be after '+ creationTime)
+#			raise ValidationError(message)
+#		if endTimeInt<startTimeInt:
+#			timeValidFlag = False
+#			raise ValidationError('start time must precede end time')
+#		if timeValidFlag == True:
+#			start_time_offset=startTimeInt-creationTimeInt
+#			end_time_offset=endTimeInt-creationTimeInt
+#			returnValue = models.add_readings_to_plan_reading(id, reading_id, startTimeInt, endTimeInt)
+#			if returnValue is not None:
+#				flash('Reading Added')
+#				return redirect(url_for('plans.show_plan', id=id))
+#		else:
+#			flash("Reading not added.")
+#	return render_template('plans/add-reading-to-plan.html', form=add_reading_to_plan_form, plan = models.find_plan(id))
 
 
 

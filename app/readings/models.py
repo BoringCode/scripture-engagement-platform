@@ -85,7 +85,7 @@ def update_reading(id, name, text, translation):
 #reading content
 def all_reading_content(reading_id):
     query = '''
-        SELECT content.name, content.content
+        SELECT content.name, content.description
         FROM content, reading, reading_content
         WHERE (content.id=reading_content.content_id) AND (reading.id=reading_content.reading_id) AND (reading.id= :reading_id)
         ORDER BY content.id;

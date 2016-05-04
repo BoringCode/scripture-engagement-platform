@@ -35,14 +35,19 @@ def constructNavbar():
     if is_logged_in():
         elements.append(Subgroup(
             'Content',
+            View('View content','content.all_content'),
             View('Add Content', 'content.add_content'),
+            View('Edit Content', 'content.edit_content')
         ))
 
     elements.append(View("Read Scripture", "scripture.list_translations"))
 
     elements.append(Subgroup(
         'Plans',
-        View('View Plans', 'plans.plan')
+        View('View Plans', 'plans.plan'),
+        View('Add Plans', 'plans.add_plan'),
+        View('Edit Plans', 'plans.edit_plans')
+
     ))
 
     elements.append(loginButton())

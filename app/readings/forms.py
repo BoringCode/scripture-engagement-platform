@@ -15,3 +15,13 @@ class AddPassage(Form):
 	finished = SelectField('Would you like to add more passages besides this one?', choices=[('yes','yes'), ('no','no')])
 	submit = SubmitField('Add Passage to Reading')
 
+class AddContentToReading(Form):
+    content_select = SelectField('Select Content')
+    submit = SubmitField('Add Content to Reading')
+
+    def set_choices(self):
+        allContent=all_content()
+        content = [[0,'select...']]
+        for content in allContent:
+            content.append([str(content["id"]),content["name"]])
+        self.content_select.choices = content
