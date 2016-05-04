@@ -1,9 +1,12 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextField, TextAreaField, SubmitField, SelectField, DateField
-from app.groups.models import all_users, all_users_in_group
+from wtforms import StringField, TextField, TextAreaField, SubmitField, SelectField, DateField, BooleanField
+from app.groups.models import all_users, all_users_in_group, all_plans, all_plans_in_group
+from wtforms.validators import Length
+
 
 class AddGroup(Form):
     group_name = TextField
+    public = BooleanField('Public')
     description = TextField
     submit = SubmitField('Add Group')
 
@@ -21,7 +24,7 @@ class AddUserToGroup(Form):
         self.user_select.choices = users
 
 class AddPlanToGroup(Form):
-    user_select = SelectField('Select Plan')
+    plan_select = SelectField('Select Plan')
     submit = SubmitField('Add Plan to Group')
 
     def set_choices(self, group_id):
@@ -33,14 +36,28 @@ class AddPlanToGroup(Form):
                 plans.append([str(plan["id"]),plan.name["name"],plan.description["description"]])
         self.plan_select.choices = plans
 
+#edit group form
+class UpdateGroup(Form):
+    name = StringField('Group Name', validators=[Length(min=1,max=40)],)
+    public = BooleanField('Public')
+    description = TextAreaField('Description of Group', validators=[Length(min=1,max=1000)])
+    submit = SubmitField('Update Group')
+    cancel = SubmitField('Cancel')
+
 class ShowAllGroups(Form):
     #List Groups on Static Page??
+    #don't think we need this form
     group_name = TextField
+    public = BooleanField('Public')
     description = TextField
     submit = SubmitField('Add Group')
 
 class ShowGroup(Form):
     #List Group Details from DB.
+    #don't think we need this form
     group_name = TextField
+    public = BooleanField('Public')
     description = TextField
     submit = SubmitField('Add Group')
+
+#add form for groups posts, no table in db for group_post
