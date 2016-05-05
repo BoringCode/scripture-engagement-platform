@@ -37,7 +37,7 @@ def add_readings_to_plan_reading(plan_id, reading_id, start_time_offset, end_tim
 
 def find_plan_reading(plan_id):
     query = '''
-    SElECT id, name FROM reading LEFT JOIN plan_reading ON plan_reading.reading_id = reading.id WHERE plan_reading.plans_id = :plan_id
+    SElECT id, name, text FROM reading LEFT JOIN plan_reading ON plan_reading.reading_id = reading.id WHERE plan_reading.plans_id = :plan_id
     '''
     return g.db.execute(query, {"plan_id":plan_id}).fetchall()
 #-----------------------------------------------------------------------------------------------------------------------------------------------------

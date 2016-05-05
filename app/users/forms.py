@@ -30,4 +30,4 @@ class Register(Form):
 	last_name = StringField("Last Name", validators=[validators.Required()])
 	password = PasswordField("Password", [validators.InputRequired("Password is required"), PasswordRequired(min=8), validators.EqualTo("password_confirm", message = "Passwords must match.")])
 	password_confirm = PasswordField("Confirm Password", [validators.InputRequired("Please confirm your password"), PasswordRequired()])
-	submit = SubmitField('Login')
+	submit = SubmitField('Create Account')

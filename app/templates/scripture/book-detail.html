@@ -11,17 +11,17 @@
 {% endmacro %}
 
 {% block main %}
-    <h2>{{ book.display }}</h2>
+    <h2 class="text-center">{{ book.display }}</h2>
     <ul>
         {% for verse_count in book.verses %}
             {% set chapter = loop.index %}
-            <li>
+            <p class="jumbotron">
                 {{ passage_href("{}.{}".format(book.osis, chapter), "Ch&nbsp;{}".format(chapter)) }}
                 &mdash;
                 {% for verse in range(verse_count) %}
                     {{ chapter_verse_href(chapter, verse + 1) }}
                 {% endfor %}
-            </li>
+            </p>
         {% endfor %}
     </ul>
 {% endblock %}

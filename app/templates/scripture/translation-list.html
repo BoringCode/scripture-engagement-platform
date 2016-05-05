@@ -3,12 +3,12 @@
 {% block title %}Available Translations{% endblock %}
 
 {% block main %}
-    <h1>Available Translations</h1>
-
-    <ol>
+    <h1 class="text-center"><strong>Available Translations</strong></h1>
+    <hr>
+    <ul class="text-center">
         {% for xlation in translations %}
-            <li><a href="{{ url_for('scripture.get_translation_info', xlation=xlation.translation) }}">{{ xlation.translation }}</a></li>
+            <p><a href="{{ url_for('scripture.get_translation_info', xlation=xlation.translation) }}">{{ xlation.translation }}</a></p>
         {% endfor %}
-    </ol>
+    </ul>
 
 {% endblock %}

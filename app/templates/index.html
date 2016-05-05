@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 
 {% block main %}
-	<h2>Welcome to the Center for Scripture Engagement</h2>
-    <div id="intro_content">
+    <img src="{{ url_for('static', filename = "images/website-header1.png") }}" class = "img-rounded img-responsive" alt="Scripture Engagement Pic">
+    <h2 class="text-center">Welcome to the Center for Scripture Engagement</h2>
+    <div id="intro_content" class="text-center">
     <p>The goal of scripture engagement is to encourage others towards a deeper understanding of God's Word. This exists as a resource to further facilitate this study, within the context of group discussion, media such as pictures, video, music, links, etc. </p>
     </div>
-
-    <div id="links">
-    <p><a href="{{ url_for('readings.all_readings') }}">Reading and Content</a></p>
-    <p>Group Discussion Board</p>
+    <div class="row">
+        <h4 class="col-md-4 text-center"> My Plans </h4>
+        <h4 class="col-md-4 text-center"> All Scripture</h4>
+        <h4 class="col-md-4 text-center"> My Groups</h4>
     </div>
-
+    <a class="col-md-4 img-rounded img-responsive" href="{{ url_for('plans.plan') }}"><img src="{{ url_for('static', filename = "images/myplans.jpg") }}" class = "img-rounded img-responsive" alt="My Daily Reading"></a>
+    <a class="col-md-4 img-rounded img-responsive" href="{{ url_for('scripture.list_translations') }}"><img src="{{ url_for('static', filename = "images/bible.jpg") }}" class = "img-rounded img-responsive" alt="All Scripture"></a>
+    <a class="col-md-4 img-rounded img-responsive" href="{{ url_for('scripture.list_translations') }}"><img src="{{ url_for('static', filename = "images/mygroups.jpg") }}" class = "img-rounded img-responsive" alt="All Scripture"></a>
+    </div>
 
 {%- endblock %}

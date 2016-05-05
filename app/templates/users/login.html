@@ -2,7 +2,11 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block main %}
-	<h2>Login</h2>
-	{{ wtf.quick_form(form, form_type="horizontal") }}
-	<p>Don't have an account? <a href="{{ url_for('users.register') }}">Register today!</a></p>
+    <div class="panel panel-body">
+        <h2 class="text-center panel-heading"><strong>Login</strong></h2><hr>
+        <div class="col-sm-6 col-sm-offset-3">{{ wtf.quick_form(form, form_type="horizontal") }}
+            <br>
+            <p class="text-center">Don't have an account? <a href="{{ url_for('users.register') }}">Register today!</a></p>
+        </div>
+    </div>
 {% endblock %}

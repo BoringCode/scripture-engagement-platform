@@ -3,7 +3,7 @@
 {% block title %}{{ verse.reference }}{% endblock %}
 
 {% block main %}
-    <h2>{{ verse.reference }}</h2>
-    {{ verse.content|safe }}
+    <h2 class="text-center">{{ verse.reference }}</h2>
+    <div class = "col-md-8 col-md-offset-2 panel panel-default">{{ verse.content|safe }} </div>
 {% endblock %}
 

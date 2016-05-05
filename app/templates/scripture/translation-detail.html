@@ -6,12 +6,11 @@
 {% block title %}{{ xlation_name }}{% endblock %}
 
 {% block main %}
-    <h2>{{ xlation_name }}</h2>
-
-    <ol>
+    <h2 class="text-center">Books of the Bible ({{ xlation_name }})</h2>
+    <ul>
     {% for book in translation.books %}
-        <li><a href="{{ url_for('scripture.get_book_info', xlation=xlation_abbr, book_osis=book.osis) }}">{{ book.display }}</a></li>
+        <p class="text-center"><a href="{{ url_for('scripture.get_book_info', xlation=xlation_abbr, book_osis=book.osis) }}">{{ book.display }}</a></p>
     {% endfor %}
-    </ol>
+    </ul>
 {% endblock %}
 

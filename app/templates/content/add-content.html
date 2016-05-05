@@ -2,8 +2,13 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="col-md-12">
-    <h2>Add Content</h2>
-    {{ wtf.quick_form(form, form_type="horizontal") }}
-</div>
+    <div class="container col-md-6 col-md-offset-3">
+        <h2 class="text-center"><strong>Add Content</strong></h2><hr>
+        {{ wtf.quick_form(form, form_type="horizontal") }}
+    </div>
+    <br>
+    <div class="container col-md-6 col-md-offset-3">
+        <h3> Content Preview </h3>
+        <img src="{{ url_for('static', filename = "images/contentpreviewplaceholder.png") }}" class = "img-rounded img-responsive col-md-4" alt="Content Preview">
+    </div>
 {% endblock %}

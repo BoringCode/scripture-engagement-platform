@@ -5,7 +5,7 @@
 {% block title %}Plan - {{plan.name}} Edit Page{% endblock %}
 
 {% block main %}
-<h2>{{plan.name}} EDIT PAGE</h2>
-    {{ wtf.quick_form(form, form_type="horizontal") }}
+<h2 class="text-center"> Edit "{{plan.name}}" </h2>
+<div class="col-md-6 col-md-offset-3"> {{ wtf.quick_form(form, form_type="horizontal") }} </div>
 
 {% endblock %}

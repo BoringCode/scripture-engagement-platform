@@ -3,21 +3,25 @@
 {% block title %}Plan - {{plan.name}}{% endblock %}
 
 {% block main %}
-<h2>{{plan.name}}</h2>
-    <p><a href="{{ url_for('plans.edit_show_plan', id=plan.id) }}">edit plan</a>
-    <p><a href="{{ url_for('plans.add_reading_to_plan', id=plan.id) }}">Add Readings</a></p>
-    <p>Creation Time: {{plan.creation_time|strftime}}</p>
-
-<p>{{plan.description}}</p>
-
-<ul>
+<h2 class="text-center">{{plan.name}} - <small>{{ plan.description }}</small></h2>
+    <p class="col-md-offset-2">Created: {{plan.creation_time|strftime}}</p>
     {% for reading in readings %}
-        <li>
+        <div class="panel panel-default col-md-8 col-md-offset-2 row">
+        <h4 class="panel-heading">
             <a href="{{ url_for("readings.show_reading", id=reading["id"]) }}">{{ reading["name"] }}</a>
-        </li>
+        </h4>
+        <div class="panel-body">
+            {{ reading["text"] }}
+        </div>
+        </div>
+        <br>
     {% else %}
         <li>No readings associated with plan</li>
     {%  endfor %}
-</ul>
+    <br>
+    <a class="btn btn-default row col-md-offset-2" href="{{ url_for('plans.edit_show_plan', id=plan.id) }}" role="button">Edit Plan</a>
+    <a class="btn btn-default row col-md-offset-1" href="{{ url_for('plans.add_reading_to_plan', id=plan.id) }}" role="button">Add Readings</a></p>
+
+
 
 {% endblock %}

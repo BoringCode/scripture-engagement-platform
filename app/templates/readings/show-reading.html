@@ -3,40 +3,39 @@
 {% block title %}Reading - {{reading.name}}{% endblock %}
 
 {% block main %}
-<h2>{{reading.name}}</h2>
-
-{% for verse in verses %}
-    <li>
-        {{ verses[verse].reference|safe }}
-        {{verses[verse].content|safe}}
-    </li>
-{%  endfor %}
-<p>
-    <a href="{{ url_for('readings.add_passages', id=reading.id) }}">Add More Passages to This Reading</a>
-</p>
-<p>{{reading.text|safe }}</p>
-
-
-
-
-<div class="panel panel-default">
-    <div class="panel-heading">All Content</div>
-    <div class="panel-body">
-        <p>This is a temporary display of all the available content. Eventually we will need to implement what/how each type of content is displayed.</p>
+<h1>{{reading.name}} - <small>{{ reading.text }}</small></h1>
+<hr>
+<br>
+<div class="row">
+    <div class="col-md-6 panel-default panel">
+    {% for verse in verses %}
+        <h3 class="panel-heading">
+            {{ verses[verse].reference|safe }}
+        </h3>
+        <div class="panel-body">
+            {{verses[verse].content|safe}}
+        </div>
+    {%  endfor %}
     </div>
-    <ul class="list-group">
-    {% for content in contents %}
-        <li class="list-group-item">
-            <tr>
-                <td><strong>{{content.name}}</strong></td>
-                <td>{{ content.content }}</td>
-            </tr>
-            </li>
-    {% else %}
-        <li class="list-group-item">No content found</li>
-    {% endfor %}
-    </ul>
+
+    <div class="panel panel-default col-md-offset-7">
+        <div class="panel-heading">All Content</div>
+        <ul class="list-group">
+        {% for content in contents %}
+            <li class="list-group-item">
+                <tr>
+                    <td><strong>{{content.name}}</strong></td>
+                    <td>{{ content.content }}</td>
+                </tr>
+                </li>
+        {% else %}
+            <li class="list-group-item">No content found</li>
+        {% endfor %}
+        </ul>
+    </div>
 </div>
+
+<a class ="btn btn-default" href="{{ url_for('readings.add_passages', id=reading.id) }}" role="button">Add More Passages to This Reading</a>
 
 {% include "posts/posts-list.html" %}
 

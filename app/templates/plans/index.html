@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block title %}All Plans in DB{% endblock %}
 {% block main %}
-    <div class="panel panel-default">
-        <div class="panel-heading"><strong>All Plans</strong>
-        </div>
+    <H2 class="text-center"><strong>All Plans</strong></H2>
+    <hr>
+    {% for plan in plans %}
+        <div class="panel panel-default col-md-8 col-md-offset-2">
+        <h4 class="panel-heading">
+            <a href="{{ url_for('plans.show_plan', id=plan.id) }}">{{plan.name}}</a>
+        </h4>
         <div class="panel-body">
-            <p>This is a temporary display of all the available plans.</p>
+            {{ plan["description"] }}
         </div>
-        <ul class="list-group">
+        </div>
+    {% else %}
+        <li class="list-group-item">No plans found</li>
+    {% endfor %}
 
-        {% for plan in plans %}
-            <li class="list-group-item">
-                <a href="{{ url_for('plans.show_plan', id=plan.id) }}">{{plan.name}}</a>
-            </li>
-        {% else %}
-            <li class="list-group-item">No plans found</li>
-        {% endfor %}
-        </ul>
-    </div>
 {% endblock %}
