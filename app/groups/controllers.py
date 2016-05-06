@@ -28,20 +28,22 @@ def show_group(id):
 	users = models.all_users_in_group(id)
 	return render_template("groups/show-group.html", group = models.find_group(id), users = users)
 
+
 #Display add groups page
 @groups.route("/add/", methods=["GET", "POST"])
 def add_group():
 	add_group_form = forms.AddGroup()
 	if add_group_form.validate_on_submit():
-		rowcount = models.add_group_to_db( add_group_form.group_name.data,
+		rowcount = models.add_group_to_db(   len(models.all_groups()),
+                                             add_group_form.group_name.data,
 											 add_group_form.public.data,
 											 add_group_form.description.data)
-		if rowcount == 1:
+		if rowcount is not None:
 			flash('Group Added')
-			return redirect(url_for('groups.show-all-groups'))
+			return redirect(url_for('groups.show_group', id = rowcount))
 		else:
 			flash("Group not added.")
-	return render_template('groups/show-group.html', form=add_group_form)
+	return render_template('groups/add-group.html', form=add_group_form)
 
 #View add user to group page
 @groups.route("/<id>/add-user-to-group/", methods=["GET", "POST"])

@@ -5,9 +5,9 @@ from wtforms.validators import Length
 
 
 class AddGroup(Form):
-    group_name = TextField
+    group_name = StringField("group_name")
     public = BooleanField('Public')
-    description = TextField
+    description = StringField("description")
     submit = SubmitField('Add Group')
 
 class AddUserToGroup(Form):

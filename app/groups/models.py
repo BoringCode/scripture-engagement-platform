@@ -16,14 +16,14 @@ def all_users():
     return cursor.fetchall()
 
 def all_users_in_group(user_group_id):
-    return g.db.execute('select user_id from group_invitation WHERE group_id = :user_group_id', {"group_id":user_group_id}).fetchall()
+    return g.db.execute('select user_id from group_invitation WHERE group_id = :user_group_id', {"user_group_id":user_group_id}).fetchall()
 
 def all_plans():
     cursor = g.db.execute('select * from plans')
     return cursor.fetchall()
 
 def all_plans_in_group(user_group_id):
-    return g.db.execute('select plans_id from group_subscription WHERE group_id = :user_group_id', {"group_id":user_group_id}).fetchall()
+    return g.db.execute('select plans_id from group_subscription WHERE group_id = :user_group_id', {"user_group_id":user_group_id}).fetchall()
 
 def add_plan_to_group(id, user_group_id):
     creation_time = time.time()
