@@ -47,11 +47,12 @@ def add_reading():
 		rowcount = models.add_reading_to_db( add_reading_form.name.data,
 											 add_reading_form.text.data,
 											 add_reading_form.translation.data)
-		if rowcount == 1:
+		if rowcount is not False:
 			flash('Reading Added')
-			return redirect(url_for('readings.all_readings'))
+			return redirect(url_for('readings.show_reading', id=rowcount))
 		else:
 			flash("Reading not added.")
+			print(rowcount)
 		#else:
 			#flash("Reading '{}' already exists".format(add_reading_form.id.data))
 	return render_template('readings/add-reading.html', form=add_reading_form)

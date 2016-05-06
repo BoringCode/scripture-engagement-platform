@@ -36,7 +36,8 @@
 </div>
 
 <a class ="btn btn-default" href="{{ url_for('readings.add_passages', id=reading.id) }}" role="button">Add More Passages to This Reading</a>
-
+<a class ="btn btn-default" href="{{ url_for('readings.add_content_to_reading', id=reading.id) }}" role="button">Add More Content to This Reading</a>
+<a class ="btn btn-default" href="{{ url_for('readings.edit_show_reading', id=reading.id) }}" role = "button">Edit Reading</a>
 {% include "posts/posts-list.html" %}
 
 {% endblock %}

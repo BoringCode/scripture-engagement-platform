@@ -1,22 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Edit Plans{% endblock %}
 {% block main %}
-    <div class="panel panel-default">
-        <div class="panel-heading"><strong>EDIT PLANS</strong>
-        <a href="{{ url_for('plans.plan') }}">View Plans</a>
-        </div>
+    <H2 class="text-center"><strong>All Editable Plans</strong></H2>
+    <hr>
+    {% for plan in plans %}
+        <div class="panel panel-default col-md-8 col-md-offset-2">
+        <h4 class="panel-heading">
+            <a href="{{ url_for('plans.edit_show_plan', id=plan.id) }}">{{plan.name}}</a>
+        </h4>
         <div class="panel-body">
-            <p>This is a temporary display of all the edit ready plans.</p>
+            {{ plan["description"] }}
         </div>
-        <ul class="list-group">
-
-        {% for plan in plans %}
-            <li class="list-group-item">
-                <a href="{{ url_for('plans.edit_show_plan', id=plan.id) }}">{{plan.name}}</a>
-            </li>
-        {% else %}
-            <li class="list-group-item">No plans found</li>
-        {% endfor %}
-        </ul>
-    </div>
+        </div>
+    {% else %}
+        <li class="list-group-item">No editable plans found</li>
+    {% endfor %}
 {% endblock %}

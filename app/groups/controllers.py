@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from werkzeug.exceptions import abort
+import flask.ext.login as flask_login
 import time
 from datetime import datetime
 from wtforms import ValidationError
@@ -18,11 +19,13 @@ groups = Blueprint('groups', __name__)
 
 # Display all groups
 @groups.route('/')
+@flask_login.login_required
 def group():
 	return render_template('groups/show-all-groups.html', groups=models.all_groups())
 
 # Display individual group
 @groups.route("/<id>/")
+@flask_login.login_required
 def show_group(id):
 	"""Display an individual group by ID"""
 	group = models.find_group(id)
@@ -36,6 +39,7 @@ def show_group(id):
 
 #Display add groups page
 @groups.route("/add/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_group():
 	add_group_form = forms.AddGroup()
 	if add_group_form.validate_on_submit():
@@ -51,6 +55,7 @@ def add_group():
 
 #View add user to group page
 @groups.route("/<id>/add-user-to-group/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_user_to_group(id):
 	group = models.find_group(id)
 	if group is None:
@@ -70,6 +75,7 @@ def add_user_to_group(id):
 
 #View add plan to group page
 @groups.route("/<id>/add-plan-to-group/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_plan_to_group(id):
 	group = models.find_group(id)
 	if group is None:
@@ -90,6 +96,7 @@ def add_plan_to_group(id):
 
 # View Edit Groups page
 @groups.route('/edit/')
+@flask_login.login_required
 def edit_group():
 	return render_template('groups/edit-groups.html', groups=models.all_groups())
 
@@ -108,6 +115,7 @@ class ObjectCreator:
 
 # View individual group you want to edit
 @groups.route("/<id>/edit/", methods = ['GET', 'POST'])
+@flask_login.login_required
 def edit_show_group(id):
 	group = models.find_group(id)
 	if group is None:

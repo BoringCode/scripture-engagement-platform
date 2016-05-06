@@ -9,7 +9,7 @@
     <div class="panel panel-default col-md-6">
         <div class="panel-heading"><h5> Group Members </h5></div>
         {% for user in users %}
-            <a href="{{ url_for("users.first_name", id=user["first name"]) }}">{{ user["username"] }}</a>
+            <a href="{{ url_for("users.profile", user_id=user.user_id) }}">{{ user.first_name }}</a>
         {% else %}
             <br>
             <p>No users associated with this group</p>
