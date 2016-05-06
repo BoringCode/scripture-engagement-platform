@@ -90,7 +90,7 @@ def add_reading_to_plan(id):
 		abort(404)
 
 	add_reading_to_plan_form = forms.AddReadingToPlan()
-	add_reading_to_plan_form.set_choices()
+	add_reading_to_plan_form.set_choices(id)
 	if add_reading_to_plan_form.validate_on_submit():
 		startTime= add_reading_to_plan_form.start_time.data
 		endTime= add_reading_to_plan_form.end_time.data

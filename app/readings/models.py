@@ -45,6 +45,12 @@ def all_readings():
     cursor = g.db.execute('select * from reading')
     return cursor.fetchall()
 
+def associated_content(plan_id):
+    query = 'select reading_id from plan_reading where plans_id = :plan_id;'
+    cursor = g.db.execute(query, {'plan_id' : plan_id})
+    return cursor.fetchall()
+
+
 def add_more_passages(id, BG_passage_reference):
     query = '''
         INSERT INTO reading_passages (reading_id, BG_passage_reference)
@@ -98,3 +104,19 @@ def delete_reading(id):
     g.db.execute('DELETE FROM reading WHERE id = :id', {'id': id}).fetchall()
     g.db.commit()
     return
+
+# add readings to plan
+def add_content_to_reading_model(reading_id, content_id):
+    query = '''
+        INSERT INTO reading_content (reading_id, content_id)
+        VALUES (:reading_id, :content_id)
+            '''
+    cursor = g.db.execute(query, {"reading_id":reading_id, "content_id":content_id})
+    g.db.commit()
+    return cursor.rowcount
+
+def find_plan_reading(plan_id):
+    query = '''
+    SElECT id, name FROM content LEFT JOIN reading_content ON reading_content.content_id_id = content.id WHERE reading_content.reading_id = :reading_id
+    '''
+    return g.db.execute(query, {"reading_id":reading_id}).fetchall()

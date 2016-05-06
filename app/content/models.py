@@ -28,6 +28,12 @@ def all_content():
     cursor = g.db.execute('select * from content')
     return cursor.fetchall()
 
+def associated_content(reading_id):
+    query = 'select content_id from reading_content where reading_id = :reading_id;'
+    cursor = g.db.execute(query, {'reading_id' : reading_id})
+    return cursor.fetchall()
+
+
 # update content
 # Should the author_id be updated too?
 def update_content(name, approved, description, id):
