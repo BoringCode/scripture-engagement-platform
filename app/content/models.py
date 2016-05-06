@@ -18,10 +18,10 @@ def find_content(id):
 
 def add_content_to_db(name, creation_time,approved, content):
     query = '''
-        INSERT INTO content (name, creation_time, approved, content)
-        VALUES (:name, :creation_time, :approved, :content)
+        INSERT INTO content (name, author_id_fk, creation_time, approved, content)
+        VALUES (:name, :author_id, :creation_time, :approved, :content)
             '''
-    cursor = g.db.execute(query, {"name":name,"creation_time":creation_time, "approved":approved, "content":content})
+    cursor = g.db.execute(query, {"name":name, "author_id": g.user.user_id, "creation_time":creation_time, "approved":approved, "content":content})
     g.db.commit()
     return cursor.rowcount
 

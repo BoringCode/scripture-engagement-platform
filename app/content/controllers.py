@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
+import flask.ext.login as flask_login
 
 #Import forms
 import app.content.forms as forms
@@ -12,6 +13,7 @@ content = Blueprint('content', __name__)
 
 # display add reading form
 @content.route("/add/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_content():
 	add_content_form = forms.AddContent()
 	if add_content_form.validate_on_submit():

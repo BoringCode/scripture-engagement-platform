@@ -1,5 +1,6 @@
 from flask import g
 import time
+from app.users.models import DBUser
 
 from app.scripture.bg_api import BGAPI
 
@@ -12,22 +13,31 @@ def find_reading_passages(id,translation):
     passages = g.db.execute('SELECT * FROM reading_passages WHERE reading_id = :id', {"id":id}).fetchall()
     verses = {}
     for entry in passages:
-        #print(entry)
         verses[entry["BG_passage_reference"]] = bg_api.get_passage(translation, entry["BG_passage_reference"])
     return verses
 
 def get_posts(id):
     query = "SELECT * FROM post LEFT JOIN reading_post ON reading_post.post_id = post.id WHERE reading_post.reading_id = :id ORDER BY time DESC"
-    return g.db.execute(query, {"id": id}).fetchall()
+    rows = g.db.execute(query, {"id": id}).fetchall()
+    posts = []
+    # Parse results from query (grab author information)
+    for row in rows:
+        posts.append({
+            "time": row["time"],
+            "approved": row["approved"],
+            "message": row["message"],
+            "author": DBUser(row["user_id_fk"])
+        })
+    return posts
 
 def add_reading_to_db(name,text, translation):
     #Get creation time
     creation_time = time.time()
     query = '''
-        INSERT INTO reading (name, creation_time, text, translation)
-        VALUES (:name, :creation_time, :text, :translation)
+        INSERT INTO reading (name, author_id, creation_time, text, translation)
+        VALUES (:name, :author_id, :creation_time, :text, :translation)
             '''
-    cursor = g.db.execute(query, {"name":name,"creation_time":creation_time, "text":text, "translation":translation})
+    cursor = g.db.execute(query, {"name":name, "author_id": g.user.user_id, "creation_time":creation_time, "text":text, "translation":translation})
     g.db.commit()
     return cursor.rowcount
 

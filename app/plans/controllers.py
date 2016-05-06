@@ -3,6 +3,7 @@ from werkzeug.exceptions import abort
 import time
 from datetime import datetime
 from wtforms import ValidationError
+import flask.ext.login as flask_login
 
 # Import forms
 import app.plans.forms as forms
@@ -31,6 +32,7 @@ def show_plan(id):
 
 # Add new plan
 @plans.route("/add/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_plan():
 	add_plan_form = forms.Plan()
 	if add_plan_form.validate_on_submit():
@@ -47,6 +49,7 @@ def add_plan():
 
 # View Edit Plans page
 @plans.route('/edit/')
+@flask_login.login_required
 def edit_plans():
 	return render_template('plans/edit-plans.html', plans=models.all_plans())
 
@@ -66,6 +69,7 @@ class ObjectCreator:
 
 # View individual plan you want to edit
 @plans.route("/<id>/edit/", methods = ['GET', 'POST'])
+@flask_login.login_required
 def edit_show_plan(id):
 	plan = models.find_plan(id)
 	if plan is None:
@@ -86,6 +90,7 @@ def edit_show_plan(id):
 
 
 @plans.route("/<id>/add-reading/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_reading_to_plan(id):
 	#remove line ater add plan form submit passes it
 	plan = models.find_plan(id)

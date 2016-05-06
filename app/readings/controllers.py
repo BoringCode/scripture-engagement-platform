@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from werkzeug.exceptions import abort
+import flask.ext.login as flask_login
 
 # Import forms
 import app.readings.forms as forms
@@ -35,6 +36,7 @@ def show_reading(id):
 	return render_template("readings/show-reading.html", reading=reading, verses=reading_passages, contents=models.all_reading_content(id), posts=posts, post_form=post_form)
 
 @readings.route("/add/", methods=["GET", "POST"])
+@flask_login.login_required
 def add_reading():
 	add_reading_form = forms.AddReading()
 	if add_reading_form.validate_on_submit():

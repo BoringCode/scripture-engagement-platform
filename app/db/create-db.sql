@@ -59,17 +59,18 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username CHAR(100) NOT NULL,
+    email_address VARCHAR(320) NOT NULL,
     password CHAR(100) NOT NULL,
-    email_address CHAR(100) NOT NULL,
     first_name CHAR(100) NOT NULL,
     last_name CHAR(100) NOT NULL,
-    active BOOLEAN DEFAULT TRUE
+    active BOOLEAN DEFAULT TRUE,
+    creation_time INTEGER NOT NULL,
+    UNIQUE (id, email_address)
 );
-CREATE UNIQUE INDEX user_id_uindex ON user (id);
+
 
 -- Group table
-DROP TABLE IF EXISTS "group";
+DROP TABLE IF EXISTS user_group;
 CREATE TABLE user_group
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,7 +79,7 @@ CREATE TABLE user_group
     creation_time DATE,
     description CHAR(500) NOT NULL
 );
-CREATE UNIQUE INDEX group_id_uindex ON "group" (id);
+CREATE UNIQUE INDEX group_id_uindex ON 'user_group' (id);
 
 --Group Invitation table
 DROP TABLE IF EXISTS group_invitation;

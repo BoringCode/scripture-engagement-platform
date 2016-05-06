@@ -10,10 +10,10 @@ def add_plan_to_db( name, description):
     #Get creation time
     creation_time = time.time()
     query = '''
-        INSERT INTO plans ( name, creation_time, description)
-        VALUES ( :name, :creation_time, :description)
+        INSERT INTO plans ( name, author_id_fk, creation_time, description)
+        VALUES ( :name, :author_id, :creation_time, :description)
             '''
-    cursor = g.db.execute(query, { "name":name, "creation_time":creation_time, "description":description})
+    cursor = g.db.execute(query, { "name":name, "author_id": g.user.user_id, "creation_time":creation_time, "description":description})
     g.db.commit()
     if cursor.rowcount == 1:
         return cursor.lastrowid

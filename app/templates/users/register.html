@@ -1,0 +1,7 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block main %}
+	<h2>Register</h2>
+	{{ wtf.quick_form(form, form_type="horizontal") }}
+{% endblock %}
