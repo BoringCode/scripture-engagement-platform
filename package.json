@@ -1,4 +1,5 @@
 {
+  "access_token": "752cc269937f3779670c074523a9ebeff3d126ecfc098a6bf75e25ae803cdd31",
   "name": "team-orange",
   "version": "1.0.0",
   "description": "This is our project, it's pretty cool",
@@ -28,4 +29,5 @@
     "cssnano": "^3.5.2",
     "pixrem": "^3.0.0"
   }
+
 }

@@ -1,6 +1,10 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from werkzeug.exceptions import abort
+import time
+from datetime import datetime
 import flask.ext.login as flask_login
+from app.object_creator import ObjectCreator
+
 
 # Import forms
 import app.readings.forms as forms
@@ -85,6 +89,62 @@ def add_passages(id):
 	return render_template('readings/add-passage.html', form=add_passages_form)
 
 
+# View Edit Reading page
+@readings.route('/edit/')
+@flask_login.login_required
+def edit_readings():
+	return render_template('readings/edit-reading.html', readings=models.all_readings())
+
+# View individual readings you want to edit
+@readings.route("/<id>/edit/", methods = ['GET', 'POST'])
+@flask_login.login_required
+def edit_show_reading(id):
+	reading = models.find_reading(id)
+	if reading is None:
+		abort(404)
+
+	edit_reading_form = forms.UpdateReading(obj=ObjectCreator(reading)) #not sure if reading or readings. Check when testing
+	if edit_reading_form.validate_on_submit():  #  This function is saying whether this is a post request
+		if edit_reading_form.cancel.data:
+			return redirect(url_for('readings.edit_readings'))
+
+		if edit_reading_form.delete.data:
+			flash('Reading Deleted')
+			return redirect(url_for('readings.all_readings', id=id, reading = models.delete_reading(id)))
+
+
+		returnValue = models.update_reading(id, edit_reading_form.name.data, edit_reading_form.text.data, edit_reading_form.translation.data)
+		if returnValue == True:
+			flash('Reading Updated')
+			return redirect(url_for('readings.all_readings', id=id))
+		else:
+			flash("Reading Not Updated")
+	return render_template("readings/edit-show-reading.html", id= reading, reading = models.find_reading(id), form=edit_reading_form)
+
+
+
+#---------------------------------------------------------------------------------------------------
+
+@readings.route("/<id>/add-content/", methods=["GET", "POST"])
+@flask_login.login_required
+def add_content_to_reading(id):
+	#remove line ater add plan form submit passes it
+	reading = models.find_reading(id)
+	if reading is None:
+		abort(404)
+
+	add_content_to_reading_form = forms.AddContentToReading()
+	add_content_to_reading_form.set_choices(id)
+	if add_content_to_reading_form.validate_on_submit():
+		content_id= add_content_to_reading_form.content_select.data
+
+		returnValue = models.add_content_to_reading_model(id, content_id)
+		if returnValue is not None:
+			flash('Reading Added')
+			return redirect(url_for('readings.show_reading', id=id))
+		else:
+			flash("Content not added.")
+	return render_template('readings/add-content-to-reading.html', form=add_content_to_reading_form, plan = models.find_reading(id))
 
 
 

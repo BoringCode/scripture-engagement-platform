@@ -39,11 +39,20 @@ def add_reading_to_db(name,text, translation):
             '''
     cursor = g.db.execute(query, {"name":name, "author_id": g.user.user_id, "creation_time":creation_time, "text":text, "translation":translation})
     g.db.commit()
-    return cursor.rowcount
+    if cursor.rowcount == 1:
+        return cursor.lastrowid
+    else:
+        return False
 
 def all_readings():
     cursor = g.db.execute('select * from reading')
     return cursor.fetchall()
+
+def associated_content(plan_id):
+    query = 'select reading_id from plan_reading where plans_id = :plan_id;'
+    cursor = g.db.execute(query, {'plan_id' : plan_id})
+    return cursor.fetchall()
+
 
 def add_more_passages(id, BG_passage_reference):
     query = '''
@@ -75,17 +84,10 @@ def delete_plan_reading(plan_id, reading_id):
     #return g.db.execute('DELETE FROM plan_reading WHERE reading_id = :reading_id OR plan_id = :plan_id', {"reading_id": reading_id, "plan_id": plan_id}).fetchall()
     return True
 
-#update reading
-def update_reading(id, name, text, translation):
-    query ='''
-      UPDATE reading SET name=:name, text=:text, translation=:translation WHERE id = :id
-    '''
-    return g.db.execute(query, {"id": id, "name": name, "text": text, "translation": translation}).rowcount
-
 #reading content
 def all_reading_content(reading_id):
     query = '''
-        SELECT content.name, content.content
+        SELECT content.name, content.description
         FROM content, reading, reading_content
         WHERE (content.id=reading_content.content_id) AND (reading.id=reading_content.reading_id) AND (reading.id= :reading_id)
         ORDER BY content.id;
@@ -94,3 +96,30 @@ def all_reading_content(reading_id):
     cursor = g.db.execute(query, {"reading_id":reading_id})
     return cursor.fetchall()
 
+#update reading
+def update_reading(id, name, text, translation):
+    query = 'UPDATE reading SET name = :name, text = :text, translation = :translation WHERE id = :id'
+    cursor = g.db.execute(query, {'name': name, 'text': text, 'translation': translation, 'id': id})
+    g.db.commit()
+    return cursor.rowcount == 1
+
+def delete_reading(id):
+    g.db.execute('DELETE FROM reading WHERE id = :id', {'id': id}).fetchall()
+    g.db.commit()
+    return
+
+# add readings to plan
+def add_content_to_reading_model(reading_id, content_id):
+    query = '''
+        INSERT INTO reading_content (reading_id, content_id)
+        VALUES (:reading_id, :content_id)
+            '''
+    cursor = g.db.execute(query, {"reading_id":reading_id, "content_id":content_id})
+    g.db.commit()
+    return cursor.rowcount
+
+def find_plan_reading(plan_id):
+    query = '''
+    SElECT id, name FROM content LEFT JOIN reading_content ON reading_content.content_id_id = content.id WHERE reading_content.reading_id = :reading_id
+    '''
+    return g.db.execute(query, {"reading_id":reading_id}).fetchall()
