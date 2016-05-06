@@ -248,7 +248,7 @@ class UsersTestCase(FlaskTestCase):
         user = users_model.register(self.example_user)
 
         login = self.login(self.example_user["email"], self.example_user["password"])
-        self.assertTrue(("Welcome back " + self.example_user["first_name"]) in str(login.data), "User can't login")
+        self.assertTrue(("Welcome " + self.example_user["first_name"]) in str(login.data), "User can't login")
 
         logout = self.logout()
         self.assertTrue("Logged out" in str(logout.data), "User can't logout")
