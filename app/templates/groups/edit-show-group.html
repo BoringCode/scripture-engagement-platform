@@ -1,0 +1,11 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends "base.html" %}
+
+{% block title %}Group - {{group.name}} Edit Page{% endblock %}
+
+{% block main %}
+<h2>{{group.name}} EDIT PAGE</h2>
+    {{ wtf.quick_form(form, form_type="horizontal") }}
+
+{% endblock %}

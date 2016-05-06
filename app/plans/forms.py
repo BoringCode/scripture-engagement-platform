@@ -27,4 +27,3 @@ class AddReadingToPlan(Form):
         for reading in allReadings:
             readings.append([str(reading["id"]),reading["name"]])
         self.reading_select.choices = readings
-

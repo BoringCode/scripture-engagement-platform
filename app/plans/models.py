@@ -76,3 +76,4 @@ def update_plan(name, description, id):
 def retrieveNextPlanId():
     return g.db.execute('SELECT * FROM plans ORDER BY id DESC LIMIT 1')+1
 
+

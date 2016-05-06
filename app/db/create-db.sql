@@ -68,9 +68,10 @@ CREATE TABLE user
     UNIQUE (id, email_address)
 );
 
+
 -- Group table
-DROP TABLE IF EXISTS groups;
-CREATE TABLE groups
+DROP TABLE IF EXISTS user_group;
+CREATE TABLE user_group
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(100) NOT NULL,
@@ -78,7 +79,7 @@ CREATE TABLE groups
     creation_time DATE,
     description CHAR(500) NOT NULL
 );
-CREATE UNIQUE INDEX group_id_uindex ON 'groups' (id);
+CREATE UNIQUE INDEX group_id_uindex ON 'user_group' (id);
 
 --Group Invitation table
 DROP TABLE IF EXISTS group_invitation;

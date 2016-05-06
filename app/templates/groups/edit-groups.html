@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Edit Groups{% endblock %}
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>EDIT GROUPS</strong>
+        <a href="{{ url_for('groups.group') }}">View Groups</a>
+        </div>
+        <div class="panel-body">
+            <p>This is a temporary display of all the edit ready groups.</p>
+        </div>
+        <ul class="list-group">
+
+        {% for group in groups %}
+            <li class="list-group-item">
+                <a href="{{ url_for('groups.edit_show_group', id=group.id) }}">{{group.name}}</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No groups found</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
