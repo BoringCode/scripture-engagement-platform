@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from wtforms import ValidationError
 import flask.ext.login as flask_login
+from .. object_creator import ObjectCreator
 
 # Import forms
 import app.plans.forms as forms
@@ -14,7 +15,7 @@ import app.plans.models as models
 # Create blueprint for plans routes
 plans = Blueprint('plans', __name__)
 
-# Display all plan
+# Display all plans
 @plans.route('/')
 def plan():
 	return render_template('plans/index.html', plans=models.all_plans())
@@ -54,19 +55,6 @@ def edit_plans():
 	return render_template('plans/edit-plans.html', plans=models.all_plans())
 
 
-class ObjectCreator:
-	def __init__(self, sqlite_row):
-		self.values_dict = self.make_dict_from_values(sqlite_row)
-		self.__dict__.update(self.values_dict)
-
-	def make_dict_from_values(self, sqlite_row):
-		keys = sqlite_row.keys()
-		values_d = {}
-		for key in keys:
-			values_d[key] = sqlite_row[key]
-		return values_d
-
-
 # View individual plan you want to edit
 @plans.route("/<id>/edit/", methods = ['GET', 'POST'])
 @flask_login.login_required
@@ -79,6 +67,10 @@ def edit_show_plan(id):
 	if edit_plan_form.validate_on_submit():  #  This function is saying whether this is a post request
 		if edit_plan_form.cancel.data:
 			return redirect(url_for('plans.edit_plans'))
+
+		if edit_plan_form.delete.data:
+			flash('Plan Deleted')
+			return redirect(url_for('plans.plan', id=id, content = models.delete_plan(id)))
 
 		returnValue = models.update_plan(edit_plan_form.name.data, edit_plan_form.description.data, id)
 		if returnValue is not None:
@@ -98,7 +90,7 @@ def add_reading_to_plan(id):
 		abort(404)
 
 	add_reading_to_plan_form = forms.AddReadingToPlan()
-	add_reading_to_plan_form.set_choices()
+	add_reading_to_plan_form.set_choices(id)
 	if add_reading_to_plan_form.validate_on_submit():
 		startTime= add_reading_to_plan_form.start_time.data
 		endTime= add_reading_to_plan_form.end_time.data

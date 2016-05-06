@@ -134,11 +134,11 @@ class ReadingsTestCase(FlaskTestCase):
 
     def test_create_reading(self):
         """Check that readings can be created"""
-        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
-        self.assertEqual(row_count, 1)
+        reading_id = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
+        self.assertTrue(reading_id is not False, "Reading could not be added to database")
 
         #Should have an index of 1
-        test_reading = readings_model.find_reading(1)
+        test_reading = readings_model.find_reading(reading_id)
         self.assertIsNotNone(test_reading, "Only one reading should be inserted into the DB")
 
         #Make sure the inserted reading matches our test data
@@ -148,12 +148,12 @@ class ReadingsTestCase(FlaskTestCase):
 
     def test_update_reading(self):
         """Ensure that readings can be updated"""
-        row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
-        self.assertEqual(row_count, 1)
+        reading_id = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
+        self.assertTrue(reading_id is not False, "Reading could not be added to database")
 
         #Check if the update was actually executed in the DB
-        row_count = readings_model.update_reading(1, "Updated reading", "Some words in the description", "KJV")
-        self.assertEqual(row_count, 1, "One reading row should be updated")
+        updated = readings_model.update_reading(reading_id, "Updated reading", "Some words in the description", "KJV")
+        self.assertTrue(updated is not False, "One reading row should be updated")
 
         #Grab the created reading from the database and make sure its data matches the updated data
         test_reading = readings_model.find_reading(1)

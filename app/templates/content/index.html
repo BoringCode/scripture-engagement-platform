@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}All Content in DB{% endblock %}
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>All Content</strong>
+        </div>
+        <div class="panel-body">
+            <p>This is a temporary display of all the available content.</p>
+        </div>
+        <ul class="list-group">
+
+        {% for content in content %}
+            <li class="list-group-item">
+                <a href="{{ url_for('content.view_content', id=content.id) }}">{{content.name}}</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No content found</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

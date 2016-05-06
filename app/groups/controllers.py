@@ -39,13 +39,12 @@ def show_group(id):
 def add_group():
 	add_group_form = forms.AddGroup()
 	if add_group_form.validate_on_submit():
-		rowcount = models.add_group_to_db(   len(models.all_groups()),
-                                             add_group_form.group_name.data,
+		group_id = models.add_group_to_db(   add_group_form.group_name.data,
 											 add_group_form.public.data,
 											 add_group_form.description.data)
-		if rowcount is not None:
+		if group_id is not False:
 			flash('Group Added')
-			return redirect(url_for('groups.show_group', id = rowcount))
+			return redirect(url_for('groups.show_group', id = group_id))
 		else:
 			flash("Group not added.")
 	return render_template('groups/add-group.html', form=add_group_form)
@@ -57,15 +56,14 @@ def add_user_to_group(id):
 	if group is None:
 		abort(404)
 
-	add_user_to_group_form = forms.AddUserToGroup(id)
-	add_user_to_group_form.set_choices()
+	add_user_to_group_form = forms.AddUserToGroup(group_id=id)
 
 	if add_user_to_group_form.validate_on_submit():
 		user_id= add_user_to_group_form.user_select.data
 		returnValue = models.add_user_to_group(id, user_id)
 		if returnValue is not None:
 			flash('User added to group')
-			return redirect(url_for('groups.show-group', id=id))
+			return redirect(url_for('groups.show_group', id=id))
 		else:
 			flash("User not added to group.")
 	return render_template('groups/add-user-to-group.html', form=add_user_to_group_form, group = models.find_group(id))
@@ -118,7 +116,7 @@ def edit_show_group(id):
 	edit_group_form = forms.UpdateGroup(obj=ObjectCreator(group))
 	if edit_group_form.validate_on_submit():  #  This function is saying whether this is a post request
 		if edit_group_form.cancel.data:
-			return redirect(url_for('groups.edit_group'))
+			return redirect(url_for('groups.edit_groups'))
 
 		returnValue = models.update_group(edit_group_form.name.data, edit_group_form.public.data, edit_group_form.description.data, id)
 		if returnValue is not None:

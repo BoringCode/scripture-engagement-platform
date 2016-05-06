@@ -43,7 +43,7 @@ def login():
 		if user.is_authenticated:
 			flask_login.login_user(user)
 
-			flash("Welcome back " + user.first_name, "success")
+			flash("Welcome " + user.first_name, "success")
 
 			next = flask.request.args.get("next")
 			if not next_is_valid(next):
@@ -90,12 +90,12 @@ def logout():
 	flask_login.logout_user()
 	return flask.redirect(flask.url_for("index"))
 
-
 @users.route("/profile/<user_id>/")
 @flask_login.login_required
 def profile(user_id):
 	try: 
 		user = DBUser(user_id)
+
 		return render_template("users/profile.html", user=user)
 	except:
 		return flask.abort(404)

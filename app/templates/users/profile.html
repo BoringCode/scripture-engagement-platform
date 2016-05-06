@@ -2,7 +2,21 @@
 {% block title %}Center for Scripture Engagement - User Profile{% endblock %}
 {% block main %}
     <h2>User: {{ user.first_name }} {{ user.last_name }}</h2>
-    
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Update Account Information</div>
+        <div class="panel-body">
+            <p>Account Information</p>
+            <p><b>First Name: </b>{{ user.first_name}}</p>
+            <p><b>Last Name: </b>{{ user.last_name}}</p>
+            <p><b>Email: </b>{{ user.username}}</p>
+            <p><b>User ID: </b>{{ user.user_id }}</p>
+
+        </div>
+
+
+
+
     <div class="panel panel-default">
         <div class="panel-heading">Notifications</div>
         <div class="panel-body">
@@ -13,17 +27,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">My Plans</div>
         <div class="panel-body">
-            <p>My Subscribed Plans - pull from DB and list...</p>
-
-        </div>
-    </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Update Account Information</div>
-        <div class="panel-body">
-            <p>Account Information - pull user info from DB</p>
-        </div>
-
+            <p>My Subscribed Plans - under construction</p>
     </div>
 
 

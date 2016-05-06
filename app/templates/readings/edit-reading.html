@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Edit Readings{% endblock %}
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>EDIT READINGS</strong>
+        <a href="{{ url_for('readings.all_readings') }}">View Readings</a>
+        </div>
+        <div class="panel-body">
+            <p>This is a temporary display of all the edit ready readings.</p>
+        </div>
+        <ul class="list-group">
+
+        {% for reading in readings %}
+            <li class="list-group-item">
+                <a href="{{ url_for('readings.edit_show_reading', id=reading.id) }}">{{reading.name}}</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No readings found</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

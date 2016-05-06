@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Edit Content{% endblock %}
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>EDIT CONTENT</strong>
+        <a href="{{ url_for('content.all_content') }}">View Content</a>
+        </div>
+        <div class="panel-body">
+            <p>This is a temporary display of all the edit ready content.</p>
+        </div>
+        <ul class="list-group">
+
+        {% for content in content %}
+            <li class="list-group-item">
+                <a href="{{ url_for('content.edit_show_content', id=content.id) }}">{{content.name}}</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No content found</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

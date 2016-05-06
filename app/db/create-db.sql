@@ -22,7 +22,7 @@ CREATE TABLE content
     name CHAR(40) NOT NULL,
     creation_time INTEGER,
     approved BOOLEAN DEFAULT FALSE,
-    content CHAR(1000) NOT NULL,
+    description CHAR(1000) NOT NULL,
     CONSTRAINT content_id_fk FOREIGN KEY (content_type) REFERENCES content_type (id),
     CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES user (id)
 );
