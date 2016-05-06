@@ -1,5 +1,6 @@
 from flask import g
 import time
+from app.users.models import DBUser
 
 def find_user(id):
     return g.db.execute('SELECT * FROM user WHERE id = :id', {"id": id}).fetchone()
@@ -62,5 +63,19 @@ def update_group(id, name, public, description):
     cursor = g.db.execute(query, {'name': name, 'public': public, 'description': description, 'id': id})
     g.db.commit()
     return cursor.rowcount
+
+def get_posts(id):
+    query = "SELECT * FROM post LEFT JOIN group_post ON group_post.post_id = post.id WHERE group_post.group_id = :id ORDER BY time DESC"
+    rows = g.db.execute(query, {"id": id}).fetchall()
+    posts = []
+    # Parse results from query (grab author information)
+    for row in rows:
+        posts.append({
+            "time": row["time"],
+            "approved": row["approved"],
+            "message": row["message"],
+            "author": DBUser(row["user_id_fk"])
+        })
+    return posts
 
 #delete user from group

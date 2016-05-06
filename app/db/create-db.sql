@@ -154,7 +154,6 @@ CREATE TABLE feedback
 );
 CREATE UNIQUE INDEX feedback_id_uindex ON feedback (id);
 
-
 -- Post table
 DROP TABLE IF EXISTS post;
 CREATE TABLE post
@@ -176,5 +175,16 @@ CREATE TABLE reading_post
     post_id INT,
     PRIMARY KEY (reading_id, post_id),
     FOREIGN KEY (reading_id) REFERENCES reading(id),
+    FOREIGN KEY (post_id) REFERENCES post(id)
+);
+
+-- Connect posts to groups
+DROP TABLE IF EXISTS group_post;
+CREATE TABLE group_post
+(
+    group_id INT,
+    post_id INT,
+    PRIMARY KEY (group_id, post_id),
+    FOREIGN KEY (group_id) REFERENCES groups(id),
     FOREIGN KEY (post_id) REFERENCES post(id)
 );

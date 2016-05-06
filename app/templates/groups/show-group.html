@@ -3,21 +3,22 @@
 {% block title %}Group - {{group.name}}{% endblock %}
 
 {% block main %}
-<h2>{{group.name}}</h2>
-    <p><a href="{{ url_for('groups.add_user_to_group', id=group.id) }}">Add User to Group</a>
-    <p>Creation Time: {{group.creation_time|strftime}}</p>
-
-<p>{{group.description}}</p>
-
-<ul>
-    {% for user in users %}
-        <li>
-        <!-- need to fix syntax -->
+<h2 class="text-center"><strong>{{group.name}} </strong></h2>
+    <hr>
+<p> Created: {{group.creation_time|strftime}}</p>
+    <div class="panel panel-default col-md-6">
+        <div class="panel-heading"><h5> Group Members </h5></div>
+        {% for user in users %}
             <a href="{{ url_for("users.first_name", id=user["first name"]) }}">{{ user["username"] }}</a>
-        </li>
-    {% else %}
-        <li>No users associated with this group</li>
-    {%  endfor %}
-</ul>
-
+        {% else %}
+            <br>
+            <p>No users associated with this group</p>
+        {%  endfor %}
+    </div>
+    <div class="panel panel-default col-md-offset-7">
+        <div class="panel-heading"><h5>Description</h5></div>
+        <div class="panel-body"> {{ group.description }} </div>
+    </div>
+    <a class="btn btn-default col-md-offset-1 row" href="{{ url_for('groups.add_user_to_group', id=group.id) }}" role="button">Add User to Group</a>
+{% include "posts/posts-list.html" %}
 {% endblock %}

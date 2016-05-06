@@ -35,7 +35,6 @@ class NewPost(Form):
             self.originator_type.data = originator_type
         if not self.originator_id.data and originator_id is not None:
             self.originator_id.data = originator_id
-
         if not self.next.data:
             self.next.data = get_redirect_target() or ''
 

@@ -10,6 +10,9 @@ import app.groups.forms as forms
 # Import models
 import app.groups.models as models
 
+# Import posts
+import app.posts.forms as posts_forms
+
 # Create blueprint for groups routes
 groups = Blueprint('groups', __name__)
 
@@ -26,7 +29,9 @@ def show_group(id):
 	if group is None:
 		abort(404)
 	users = models.all_users_in_group(id)
-	return render_template("groups/show-group.html", group = models.find_group(id), users = users)
+	posts = models.get_posts(id)
+	post_form = posts_forms.NewPost(originator_type="group", originator_id=id)
+	return render_template("groups/show-group.html", group = models.find_group(id), users = users, posts=posts, post_form=post_form)
 
 
 #Display add groups page
@@ -113,7 +118,7 @@ def edit_show_group(id):
 	edit_group_form = forms.UpdateGroup(obj=ObjectCreator(group))
 	if edit_group_form.validate_on_submit():  #  This function is saying whether this is a post request
 		if edit_group_form.cancel.data:
-			return redirect(url_for('groups.edit_groups'))
+			return redirect(url_for('groups.edit_group'))
 
 		returnValue = models.update_group(edit_group_form.name.data, edit_group_form.public.data, edit_group_form.description.data, id)
 		if returnValue is not None:
