@@ -34,13 +34,12 @@ def show_group(id):
 def add_group():
 	add_group_form = forms.AddGroup()
 	if add_group_form.validate_on_submit():
-		rowcount = models.add_group_to_db(   len(models.all_groups()),
-                                             add_group_form.group_name.data,
+		group_id = models.add_group_to_db(   add_group_form.group_name.data,
 											 add_group_form.public.data,
 											 add_group_form.description.data)
-		if rowcount is not None:
+		if group_id is not False:
 			flash('Group Added')
-			return redirect(url_for('groups.show_group', id = rowcount))
+			return redirect(url_for('groups.show_group', id = group_id))
 		else:
 			flash("Group not added.")
 	return render_template('groups/add-group.html', form=add_group_form)
