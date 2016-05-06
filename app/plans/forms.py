@@ -30,4 +30,3 @@ class AddReadingToPlan(Form):
             if reading['id'] not in already_used:
                 readings.append([str(reading["id"]),reading["name"]])
         self.reading_select.choices = readings
-

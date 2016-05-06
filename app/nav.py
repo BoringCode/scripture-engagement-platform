@@ -42,13 +42,15 @@ def constructNavbar():
 
     elements.append(View("Read Scripture", "scripture.list_translations"))
 
-    elements.append(Subgroup(
-        'Plans',
-        View('View Plans', 'plans.plan'),
-        View('Add Plans', 'plans.add_plan'),
-        View('Edit Plans', 'plans.edit_plans')
+    elements.append(plans())
 
-    ))
+    if is_logged_in():
+        elements.append(Subgroup(
+            'Groups',
+            View('View Groups', 'groups.group'),
+            View('Edit Groups', 'groups.edit_group'),
+            View('Add Group', 'groups.add_group')
+        ))
 
     elements.append(loginButton())
 
@@ -62,6 +64,17 @@ def readings():
     if is_logged_in():
         elements.append(View("Add Reading", "readings.add_reading",))
         elements.append(View("Edit Reading", "readings.edit_readings",))
+
+    return Subgroup(*elements)
+
+def plans():
+    elements = ["Plans"]
+
+    elements.append(View("View Plans", "plans.plan"))
+
+    if is_logged_in():
+        elements.append(View('Add Plans', 'plans.add_plan'))
+        elements.append(View('Edit Plans', 'plans.edit_plans'))
 
     return Subgroup(*elements)
 
