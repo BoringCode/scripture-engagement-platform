@@ -39,7 +39,10 @@ def add_reading_to_db(name,text, translation):
             '''
     cursor = g.db.execute(query, {"name":name, "author_id": g.user.user_id, "creation_time":creation_time, "text":text, "translation":translation})
     g.db.commit()
-    return cursor.rowcount
+    if cursor.rowcount == 1:
+        return cursor.lastrowid
+    else:
+        return False
 
 def all_readings():
     cursor = g.db.execute('select * from reading')
@@ -94,11 +97,11 @@ def all_reading_content(reading_id):
     return cursor.fetchall()
 
 #update reading
-def update_reading(name, text, translation, id):
+def update_reading(id, name, text, translation):
     query = 'UPDATE reading SET name = :name, text = :text, translation = :translation WHERE id = :id'
     cursor = g.db.execute(query, {'name': name, 'text': text, 'translation': translation, 'id': id})
     g.db.commit()
-    return cursor.rowcount
+    return cursor.rowcount == 1
 
 def delete_reading(id):
     g.db.execute('DELETE FROM reading WHERE id = :id', {'id': id}).fetchall()

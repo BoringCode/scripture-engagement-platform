@@ -66,6 +66,16 @@ $ python tests.py
 
 Tests **must** be written and passing before pushing changes to the master branch.
 
+## Manager
+
+Certain actions can be performed from your CLI using `manage.py`. 
+
+Call these actions from inside your virtualenv: `python manage.py action`
+
+- **list_routes**
+  
+  List all available URL routes in the Flask application. Displays allowed methods and required parameters. 
+
 ## Team Members
 - Bradley Rosenfeld
 - Lindsay Robinson

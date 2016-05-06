@@ -3,7 +3,7 @@ from werkzeug.exceptions import abort
 import time
 from datetime import datetime
 import flask.ext.login as flask_login
-from .. object_creator import ObjectCreator
+from app.object_creator import ObjectCreator
 
 
 # Import forms
@@ -113,8 +113,8 @@ def edit_show_reading(id):
 			return redirect(url_for('readings.all_readings', id=id, reading = models.delete_reading(id)))
 
 
-		returnValue = models.update_reading(edit_reading_form.name.data, edit_reading_form.text.data, edit_reading_form.translation.data, id)
-		if returnValue is not None:
+		returnValue = models.update_reading(id, edit_reading_form.name.data, edit_reading_form.text.data, edit_reading_form.translation.data)
+		if returnValue == True:
 			flash('Reading Updated')
 			return redirect(url_for('readings.all_readings', id=id))
 		else:
