@@ -13,7 +13,7 @@
     {% for user in users %}
         <li>
         <!-- need to fix syntax -->
-            <a href="{{ url_for("users.first_name", id=user["first name"]) }}">{{ user["username"] }}</a>
+            <a href="{{ url_for('users.profile', user_id=user.user_id) }}">{{ user.first_name }}</a>
         </li>
     {% else %}
         <li>No users associated with this group</li>

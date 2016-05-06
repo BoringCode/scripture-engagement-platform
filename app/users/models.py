@@ -61,7 +61,6 @@ class DBUser():
 	def username(self):
 	    return self._user["email_address"]
 	
-
 	def get(self):
 		if hasattr(self, '_user') and self._user is not None: return
 		self._user = g.db.execute('SELECT * FROM user WHERE id = :id', {"id": self._user_id}).fetchone()

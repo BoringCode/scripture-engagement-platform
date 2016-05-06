@@ -1,5 +1,6 @@
 from flask import g
 import time
+from app.users.models import DBUser
 
 def find_user(id):
     return g.db.execute('SELECT * FROM user WHERE id = :id', {"id": id}).fetchone()
@@ -16,7 +17,8 @@ def all_users():
     return cursor.fetchall()
 
 def all_users_in_group(user_group_id):
-    return g.db.execute('select user_id from group_invitation WHERE group_id = :user_group_id', {"user_group_id":user_group_id}).fetchall()
+    users =  g.db.execute('SELECT user_id from group_invitation WHERE group_id = :user_group_id', {"user_group_id":user_group_id}).fetchall()
+    return [DBUser(user["user_id"]) for user in users]
 
 def all_plans():
     cursor = g.db.execute('select * from plans')
@@ -35,12 +37,12 @@ def add_plan_to_group(id, user_group_id):
     g.db.commit()
     return cursor.rowcount
 
-def add_user_to_group(user_id, user_group_id):
+def add_user_to_group(user_group_id, user_id):
     creation_time = time.time()
     query = '''
         INSERT INTO group_invitation (group_id, user_id, creation_time)
-        VALUES (:user_group_id, :user_id, :creation_time)
-            '''
+        VALUES (:group_id, :user_id, :creation_time)
+    '''
     cursor = g.db.execute(query, {"group_id":user_group_id, "user_id":user_id, "creation_time":creation_time})
     g.db.commit()
     return cursor.rowcount
