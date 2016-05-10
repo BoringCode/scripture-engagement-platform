@@ -1,14 +1,16 @@
 import requests
 import json
+import app
 from werkzeug.contrib.cache import SimpleCache
 
 class BGAPI(object):
 
-    cache_timeout = 30*60
+    # Timeout (in minutes)
+    cache_timeout = 1440
 
     def __init__(self):
         self.cache = SimpleCache()
-        with open("bg-keys.json", "r") as f:
+        with open(app.app.config["BG_API_KEY"], "r") as f:
             self.auth_params = json.load(f)
 
     def get(self, url_path, params={}):
@@ -23,7 +25,7 @@ class BGAPI(object):
                 request = response.request
                 raise RuntimeError("{} request {} returned {}".format(request.method, request.url, response.status_code))
             rv = response.json()
-            self.cache.set(url_path, rv, timeout=self.cache_timeout)
+            self.cache.set(url_path, rv, timeout=self.cache_timeout*60)
         return rv
 
     def list_translations(self):

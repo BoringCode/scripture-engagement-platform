@@ -2,6 +2,8 @@ DEBUG = True
 
 DATABASE = "app/database.db"
 
+BG_API_KEY = "bg-keys.json"
+
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
