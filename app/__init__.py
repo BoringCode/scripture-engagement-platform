@@ -67,8 +67,3 @@ def _jinja2_filter_datetime(date, fmt=None):
 def index():
 	return render_template("index.html")
 
-#Set up navigation
-from app.nav import nav
-nav.init_app(app)
-
-
