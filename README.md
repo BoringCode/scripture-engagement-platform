@@ -7,6 +7,7 @@ This is our implementation of the system design presented during the Fall 2015 I
 ## Requirements
 
 - Python 3.3+
+- sqlite3
 - PIP
 - virtualenv
 - [Node Package Manager](https://www.npmjs.com/)
@@ -27,6 +28,15 @@ Front-end dependancies and builds are handled with NPM and [Grunt](http://gruntj
 $ npm install
 $ grunt
 ```
+
+The database can be created within PyCharm using `app/db/create-db.sql`, or you can create it manually from the command line. You should create a file called `database.db` (or manually configure the path in `config.py`)
+
+```bash
+$ sqlite3 app/database.db
+sqlite> .read app/db/create-db.sql;
+```
+
+The app allows you to create all the necessary data from within the site (users, readings, posts, etc...) but you can also optionally create some test data by reading in `app/db/init-db.sql`.
 
 Now that you've installed all the dependancies, start the application.
 
