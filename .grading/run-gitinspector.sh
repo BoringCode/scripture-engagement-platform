@@ -16,4 +16,5 @@ gitinspector \
 	--grading \
 	--since='02/01/2015' \
 	--exclude='app/static/css/main.css' \
+	--exclude='src/scss' \
 #	--format=html > foo.html
