@@ -64,6 +64,8 @@ class FlaskTestCase(unittest.TestCase):
         # Set database file location
         app.config["DATABASE"] = self.file_name
 
+        app.config["BG_API_KEY"] = self.bg_api_key.name
+
         # Create a test client.
         self.client = app.test_client(use_cookies=True)
 
@@ -80,18 +82,30 @@ class FlaskTestCase(unittest.TestCase):
         g.db.close(False)
         self.app_context.pop()
 
+    def tempFile(self, permissions = "r+"):
+        # Generate new temporary file and return a file object
+        (file_descriptor, file_name) = tempfile.mkstemp()
+        os.close(file_descriptor)
+        return open(file_name, permissions)
+
     # This method is invoked once before all the tests in this test case.
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(self):
         """So that we don't overwrite application data, create a temporary database file."""
-        (file_descriptor, cls.file_name) = tempfile.mkstemp()
+        (file_descriptor, self.file_name) = tempfile.mkstemp()
         os.close(file_descriptor)
+
+        # Create temp api key file
+        self.bg_api_key = self.tempFile("r+")
+        self.bg_api_key.write('{ "access_token": "" }')
+        self.bg_api_key.flush()
 
     # This method is invoked once after all the tests in this test case.
     @classmethod
     def tearDownClass(cls):
         """Remove the temporary database file."""
         os.unlink(cls.file_name)
+        os.unlink(cls.bg_api_key.name)
 
     @patch("app.before")
     def before_request():
@@ -101,6 +115,7 @@ class FlaskTestCase(unittest.TestCase):
     @patch("app.after")
     def after_request(exception):
         pass
+
 
 class ApplicationTestCase(FlaskTestCase):
     """Test the basic behavior of page routing and display"""
