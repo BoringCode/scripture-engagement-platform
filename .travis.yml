@@ -8,6 +8,6 @@ python:
 # command to install dependencies
 install: 
   - "pip install -r requirements.txt"
-  - echo '{ "access_token": "" }' > bg-keys.json
+  - "echo '{ \"access_token": \"\" }' > bg-keys.json"
 # command to run tests
 script: "python -m unittest discover"
