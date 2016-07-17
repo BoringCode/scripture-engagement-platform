@@ -2,6 +2,8 @@
 
 > Encouraging Biblical study and engagement through a dynamic online platform
 
+[![Build Status](https://travis-ci.org/BoringCode/scripture-engagement-platform.svg?branch=master)](https://travis-ci.org/BoringCode/scripture-engagement-platform)
+
 This is our implementation of the system design presented during the Fall 2015 Information Systems Analysis class. The application is built on top of [Flask](http://flask.pocoo.org/).
 
 ## Requirements

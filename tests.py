@@ -162,6 +162,7 @@ class ReadingsTestCase(FlaskTestCase):
         self.assertEqual(test_reading["text"], "Some words in the description")
         self.assertEqual(test_reading["translation"], "KJV")
 
+    @unittest.skip("Invalid BG API key, so don't test for now")
     def test_add_passage(self):
         """Ensure that a passage can be added to a reading"""
         row_count = readings_model.add_reading_to_db(self.example_reading["name"], self.example_reading["description"], self.example_reading["translation"])
