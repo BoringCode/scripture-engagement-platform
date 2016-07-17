@@ -4,12 +4,12 @@ from app.users.models import DBUser
 
 from app.scripture.bg_api import BGAPI
 
-bg_api = BGAPI()
-
 def find_reading(id):
 	return g.db.execute('SELECT * FROM reading WHERE id = :id', {"id": id}).fetchone()
 
 def find_reading_passages(id,translation):
+    bg_api = BGAPI()
+    
     passages = g.db.execute('SELECT * FROM reading_passages WHERE reading_id = :id', {"id":id}).fetchall()
     verses = {}
     for entry in passages:

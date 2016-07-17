@@ -17,8 +17,6 @@ import app.posts.forms as posts_forms
 
 from app.scripture.bg_api import BGAPI
 
-bg_api = BGAPI()
-
 # Create blueprint for readings routes
 readings = Blueprint('readings', __name__)
 
